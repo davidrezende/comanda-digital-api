@@ -10,6 +10,4 @@ public class Card {
     private Date beginDate;
     private Date endDate;
 
-
-
 }
