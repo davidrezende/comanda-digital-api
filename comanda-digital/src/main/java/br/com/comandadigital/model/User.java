@@ -1,17 +1,30 @@
 package br.com.comandadigital.model;
 
-import br.com.comandadigital.constants.entity.UserValidation;
-import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
+import java.util.List;
+import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.Date;
+
+import org.hibernate.validator.constraints.br.CPF;
+
+import br.com.comandadigital.constants.entity.UserValidation;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @Getter
@@ -43,4 +56,11 @@ public class User implements Serializable {
 
     private Date dtRegistration;
 
+    @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<Store> stores;
+
+    @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<Card> cards;
+    
+    
 }
