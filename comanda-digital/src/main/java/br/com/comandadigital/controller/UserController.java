@@ -35,7 +35,7 @@ public class UserController {
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@Transactional(rollbackOn = Exception.class)
 	//@ApiOperation(value = "Save object user", response = ResponseEntity.class)
-	public ResponseEntity<User> save(@RequestBody @Valid User user){
+	public ResponseEntity<User> save(@RequestBody User user){
 		
 		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
 		

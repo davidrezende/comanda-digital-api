@@ -46,7 +46,7 @@ public class User implements Serializable {
     private String name;
 
     @ToString.Exclude
-    @CPF(message = UserValidation.CPF_VALIDATION_MESSAGE)
+    //@CPF(message = UserValidation.CPF_VALIDATION_MESSAGE)
     private String cpf;
 
     @ToString.Exclude

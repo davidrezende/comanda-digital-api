@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
 @Getter
 @Setter
 @Builder
@@ -27,7 +26,7 @@ public class Store implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idStore;
 
-    @CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
+   // @CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
     private String cnpj;
 
     @NotBlank(message = StoreValidation.NAME_VALIDATION_MESSAGE)
