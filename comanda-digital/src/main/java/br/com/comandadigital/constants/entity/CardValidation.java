@@ -1,6 +1,6 @@
 package br.com.comandadigital.constants.entity;
 
-public class CardValidation {
+public final class CardValidation {
     public static final String TABLE_NUMBER_VALIDATION_MESSAGE        =         "Numero da mesa invalido";
     public static final String AMOUNT_PEOPLE_VALIDATION_MESSAGE       =         "Numero de pessoas na mesa invalido";
 
