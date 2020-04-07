@@ -38,7 +38,7 @@ import lombok.ToString;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUser;
 
     @NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)

@@ -6,16 +6,7 @@ import br.com.comandadigital.constants.entity.UserValidation;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -33,7 +24,7 @@ import java.util.List;
 public class Store implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idStore;
 
     @CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
