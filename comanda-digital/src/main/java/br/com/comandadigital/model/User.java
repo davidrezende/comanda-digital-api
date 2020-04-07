@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.comandadigital.constants.entity.UserValidation;
@@ -25,6 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Value;
 
 @Data
 @Getter
@@ -54,6 +56,8 @@ public class User implements Serializable {
     @Size( min = 8, max = 16, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
     private String password;
 
+   
+    @Temporal(value = TemporalType.TIMESTAMP)
     private Date dtRegistration;
 
     @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
