@@ -2,14 +2,7 @@ package br.com.comandadigital.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -35,7 +28,7 @@ import lombok.ToString;
 public class Card {
 
 	@Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idCard;
 	
 	@NotBlank(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
@@ -47,7 +40,6 @@ public class Card {
     private int amountPeople;
     
     private Date beginDate;
-    
 
     private Date endDate;
     

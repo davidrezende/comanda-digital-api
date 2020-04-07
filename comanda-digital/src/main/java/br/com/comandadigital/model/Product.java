@@ -3,17 +3,11 @@ package br.com.comandadigital.model;
 import br.com.comandadigital.constants.entity.ProductValidation;
 import lombok.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Data
@@ -28,7 +22,7 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idProduct;
 
     @NotBlank( message = ProductValidation.NAME_VALIDATION_MESSAGE)
@@ -37,6 +31,7 @@ public class Product {
     @NotBlank( message = ProductValidation.DESCRIPTION_VALIDATION_MESSAGE)
     private String description;
 
+    @NotNull
     @DecimalMin(value = "0.0", inclusive = false, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     @Digits(integer= 3, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     private BigDecimal value;
