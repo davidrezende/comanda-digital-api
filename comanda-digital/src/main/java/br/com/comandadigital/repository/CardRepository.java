@@ -8,7 +8,5 @@ import br.com.comandadigital.model.Card;
 import java.util.List;
 
 public interface CardRepository extends PagingAndSortingRepository<Card, Long> {
-    List<Card> findByCnpjLike(String name);
-    List<Card> findByNameLike(String name);
     List<Card> findAll();
 }
