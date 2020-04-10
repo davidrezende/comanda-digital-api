@@ -3,6 +3,7 @@ package br.com.comandadigital.model;
 
 import br.com.comandadigital.constants.entity.StoreValidation;
 import br.com.comandadigital.constants.entity.UserValidation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
@@ -50,16 +51,13 @@ public class Store implements Serializable {
 
     private String registrationDate;
 
-    @ManyToOne( fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;
-    
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<Product> products;
-    
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Card> cards;
-    
 
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_store")
+    private List<Card> cards;
 
 }

@@ -43,7 +43,6 @@ public class Product {
     @Digits(integer= 3, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     private BigDecimal value;
 
-    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_store")
     private Store store;
