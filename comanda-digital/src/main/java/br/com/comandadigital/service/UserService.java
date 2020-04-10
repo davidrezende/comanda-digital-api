@@ -24,19 +24,23 @@ public class UserService {
 	
 	
 	public Iterable<User> listAll(Pageable pageable){
+//		log.info(LogConstants.LIST_ALL_USERS);
 		return userRepository.findAll(pageable);
 	}
 	
 	public List<User> listAll(){
+//		log.info(LogConstants.LIST_ALL_USERS);
 		return userRepository.findAll();
 	}
 
 	public User save(User user) {
+//		log.info(LogConstants.SAVE_USER);
 		user.setDtRegistration(new Date());
 		return userRepository.save(user);
 	}
 	
 	public User update(User user) {
+//		log.info(LogConstants.UPDATE_USER);
 		return userRepository.save(user);
 	}
 	
