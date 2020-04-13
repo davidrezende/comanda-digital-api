@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import br.com.comandadigital.constants.entity.ProductValidation;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class ProductCard {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long idProductCard;
 	
-	@NotBlank( message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
+	@NotNull( message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
 	private Integer amountProduct;
 	
 	@Column(updatable = false)
