@@ -8,6 +8,7 @@ import br.com.comandadigital.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class StoreService {
 
 	public Store save(Store store){
 //		log.info(LogConstants.SAVE_STORE);
-		storeRepository.save(store);
+		store.setRegistrationDate(new Date());
 		return storeRepository.save(store);
 	}
 
