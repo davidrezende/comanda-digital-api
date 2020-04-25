@@ -18,6 +18,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.comandadigital.constants.entity.UserValidation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +42,14 @@ import lombok.Value;
 @Table(name = "tb_user")
 public class User implements Serializable {
 
-    @Id
+	
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2966895294948892097L;
+
+	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUser;
 
@@ -58,11 +68,14 @@ public class User implements Serializable {
 
    
     @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(updatable = false)
     private Date dtRegistration;
 
-    @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Store> stores;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Card> cards;
     
