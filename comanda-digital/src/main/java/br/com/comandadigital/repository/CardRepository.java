@@ -1,9 +1,12 @@
 package br.com.comandadigital.repository;
 
+import br.com.comandadigital.model.Store;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import br.com.comandadigital.model.Card;
 
-public interface CardRepository extends PagingAndSortingRepository<Card, Long> {
+import java.util.List;
 
+public interface CardRepository extends PagingAndSortingRepository<Card, Long> {
+    List<Card> findAll();
 }
