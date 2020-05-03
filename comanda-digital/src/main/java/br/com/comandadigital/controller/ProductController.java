@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("v1/product")
 @Slf4j
@@ -36,7 +36,7 @@ public class ProductController {
 	
 	@GetMapping(path = "/find/productStore/{name}/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> listByNameAndStore(@PathVariable String name, @PathVariable Long idStore){
+	public ResponseEntity<?> listByNameAndStore(@RequestParam(required = false, defaultValue = "") @PathVariable String name, @PathVariable Long idStore){
 		return new ResponseEntity<>( productService.listByNameAndStore(name, idStore), HttpStatus.OK);
 	}
 	

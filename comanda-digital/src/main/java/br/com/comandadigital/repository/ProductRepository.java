@@ -9,7 +9,7 @@ import br.com.comandadigital.model.Store;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
 
-    List<Product> findByNameLikeAndStore_IdStore(String name, Long idSore);
+    List<Product> findByNameContainingAndStore_IdStore(String name, Long idSore);
     List<Product> findByStore_idStore(Long idStore);
 	
 }

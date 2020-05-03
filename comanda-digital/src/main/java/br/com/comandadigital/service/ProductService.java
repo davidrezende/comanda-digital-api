@@ -26,7 +26,7 @@ public class ProductService {
 
 	public List<Product> listByNameAndStore(String name,Long idStore){
 //		log.info(LogConstants.LIST_ALL_PRODUCTS_BY_STORE);
-		return productRepository.findByNameLikeAndStore_IdStore(name, idStore);
+		return productRepository.findByNameContainingAndStore_IdStore(name, idStore);
 	}	
 	
 	
