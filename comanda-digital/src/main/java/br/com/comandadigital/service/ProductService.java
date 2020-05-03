@@ -20,7 +20,6 @@ public class ProductService {
 	
 	public List<Product> listByStore(Long IdStore){
 //		log.info(LogConstants.LIST_ALL_PRODUCTS_BY_STORE);
-		System.out.println("aqui?");
 		return productRepository.findByStore_idStore(IdStore);
 	}
 
