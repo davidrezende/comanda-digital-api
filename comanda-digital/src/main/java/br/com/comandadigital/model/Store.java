@@ -51,7 +51,7 @@ public class Store implements Serializable {
 
     private String registrationDate;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;
 
