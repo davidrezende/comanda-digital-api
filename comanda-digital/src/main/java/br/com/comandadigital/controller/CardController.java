@@ -1,12 +1,8 @@
 package br.com.comandadigital.controller;
 
-
 import br.com.comandadigital.model.Card;
-import br.com.comandadigital.model.Store;
 import br.com.comandadigital.repository.CardRepository;
-import br.com.comandadigital.repository.StoreRepository;
 import br.com.comandadigital.service.CardService;
-import br.com.comandadigital.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -28,7 +23,12 @@ public class CardController {
 
     @GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Card>> listAll() {
-        return new ResponseEntity<List<Card>>(cardService.list(), HttpStatus.OK);
+        return new ResponseEntity<List<Card>>(cardService.listAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Card>> listAllOpenCards() {
+        return new ResponseEntity<List<Card>>(cardService.listAllOpenCards(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -43,4 +43,8 @@ public class CardController {
         return new ResponseEntity<>(cardService.update(card), HttpStatus.CREATED);
     }
 
+    @PostMapping(path = "/findByCPF", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Card>> findByCPF(@RequestBody String cpf){
+        return new ResponseEntity<List<Card>>(cardService.findByCpf(cpf), HttpStatus.OK);
+    }
 }

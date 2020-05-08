@@ -40,7 +40,7 @@ public class Card {
 	//@Size(min = 1, max = 3, message = CardValidation.AMOUNT_PEOPLE_VALIDATION_MESSAGE)
     private int amountPeople;
 
-private Date beginDate;
+    private Date beginDate;
 
     private Date endDate;
 
