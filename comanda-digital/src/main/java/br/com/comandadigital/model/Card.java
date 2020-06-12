@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.comandadigital.constants.entity.CardValidation;
@@ -31,27 +32,27 @@ public class Card {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idCard;
 	
-	@NotBlank(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
-	@Size(min = 1, max = 3, message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
+	@NotNull(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
+	//@Size(min = 1, max = 3, message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
     private Long tableNumber;
 	
-	@NotBlank(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
-	@Size(min = 1, max = 3, message = CardValidation.AMOUNT_PEOPLE_VALIDATION_MESSAGE)
+	@NotNull(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
+	//@Size(min = 1, max = 3, message = CardValidation.AMOUNT_PEOPLE_VALIDATION_MESSAGE)
     private int amountPeople;
-    
+
     private Date beginDate;
 
     private Date endDate;
-    
+
 //
 //    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 //    @JoinColumn(name = "id_store")
 //    private Store store;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;
-    
+
     
 
 }
