@@ -36,7 +36,7 @@ public class ProductController {
 	
 	@GetMapping(path = "/find/productStore/{name}/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> listByNameAndStore(@PathVariable String name, @PathVariable Long idStore){
+	public ResponseEntity<?> listByNameAndStore( @PathVariable String name, @PathVariable Long idStore){
 		return new ResponseEntity<>( productService.listByNameAndStore(name, idStore), HttpStatus.OK);
 	}
 	
