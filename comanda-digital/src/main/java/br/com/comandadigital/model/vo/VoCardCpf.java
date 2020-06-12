@@ -16,10 +16,6 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-
-public class VoCard {
-
-    private Card card;
-    private ProductCard products;
-
+public class VoCardCpf {
+    private String cpf;
 }

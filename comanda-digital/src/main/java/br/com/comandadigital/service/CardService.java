@@ -1,8 +1,7 @@
 package br.com.comandadigital.service;
 
 import br.com.comandadigital.model.Card;
-import br.com.comandadigital.model.Store;
-import br.com.comandadigital.model.vo.VoCard;
+import br.com.comandadigital.model.vo.VoCardCpf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,6 @@ import br.com.comandadigital.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -40,8 +38,8 @@ public class CardService {
 		return cardRepository.findByEndDateIsNull();
 	}
 
-	public List<Card> findByCpf(String cpf){
+	public List<Card> findByCpf(VoCardCpf cpf){
 //		log.info(LogConstants.LIST_ALL_STORES);
-		return cardRepository.findByUser_CpfAndEndDateIsNull(cpf);
+		return cardRepository.findByUser_Cpf(cpf.getCpf());
 	}
 }
