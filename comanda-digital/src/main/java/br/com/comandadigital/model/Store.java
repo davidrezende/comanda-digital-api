@@ -3,13 +3,17 @@ package br.com.comandadigital.model;
 
 import br.com.comandadigital.constants.entity.StoreValidation;
 import br.com.comandadigital.constants.entity.UserValidation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CNPJ;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,7 +26,12 @@ import java.util.List;
 @Table(name = "tb_store")
 public class Store implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8733769688320329862L;
+
+	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idStore;
 
@@ -41,18 +50,15 @@ public class Store implements Serializable {
     @Size( max = 200, message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
     private String address;
 
-    private String registrationDate;
+    private Date registrationDate;
 
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;
-    
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<Product> products;
-    
-    @OneToMany(mappedBy = "store", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private List<Card> cards;
-    
 
+    @JsonIgnore
+    @OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_store")
+    private List<Card> cards;
 
 }

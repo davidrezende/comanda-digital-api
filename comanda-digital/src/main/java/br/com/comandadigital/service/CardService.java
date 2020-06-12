@@ -1,7 +1,7 @@
 package br.com.comandadigital.service;
 
 import br.com.comandadigital.model.Card;
-import br.com.comandadigital.model.Store;
+import br.com.comandadigital.model.vo.VoCardCpf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +27,19 @@ public class CardService {
 		return cardRepository.save(card);
 	}
 
-	public List<Card> list(){
+	public List<Card> listAll(){
 //		log.info(LogConstants.LIST_ALL_STORES);
 		return cardRepository.findAll();
+
+	}
+
+	public List<Card> listAllOpenCards(){
+//		log.info(LogConstants.LIST_ALL_STORES);
+		return cardRepository.findByEndDateIsNull();
+	}
+
+	public List<Card> findByCpf(VoCardCpf cpf){
+//		log.info(LogConstants.LIST_ALL_STORES);
+		return cardRepository.findByUser_Cpf(cpf.getCpf());
 	}
 }

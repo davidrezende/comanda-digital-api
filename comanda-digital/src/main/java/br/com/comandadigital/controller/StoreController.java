@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("v1/store")
 @Slf4j
@@ -39,18 +39,18 @@ public class StoreController {
     @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody Store store) {
-        return new ResponseEntity<>(storeService.update(store), HttpStatus.CREATED);
+        return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
     }
 
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<?> findByNameLike(@PathVariable String name) {
-        return new ResponseEntity<>(storeRepository.findByNameLike(name), HttpStatus.CREATED);
+        return new ResponseEntity<>(storeRepository.findByNameLike(name), HttpStatus.OK);
     }
 
     @GetMapping(path = "/find/cnpj/{cnpj}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<?> findByCnpjLike(@PathVariable String cnpj) {
-        return new ResponseEntity<>(storeRepository.findByCnpjLike(cnpj), HttpStatus.CREATED);
+        return new ResponseEntity<>(storeRepository.findByCnpjLike(cnpj), HttpStatus.OK);
     }
 }

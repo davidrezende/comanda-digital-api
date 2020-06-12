@@ -10,17 +10,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.comandadigital.model.User;
+import br.com.comandadigital.repository.UserRepository;
 import br.com.comandadigital.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+@CrossOrigin
 @RestController
 @RequestMapping("v1/user")
 @Slf4j
@@ -29,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	
 	private final UserService  userService;
+	private final UserRepository userRepository;
 
 	@GetMapping("/testeapi")
 	private String test() {
@@ -66,6 +71,18 @@ public class UserController {
 	public ResponseEntity<?> update(@RequestBody @Valid User user){
 		return new ResponseEntity<>(userService.update(user), HttpStatus.CREATED);
 	}
+	
+    @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> findByNameLike(@PathVariable String name) {
+        return new ResponseEntity<>(userRepository.findByNameLike(name), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> findByCnpjLike(@PathVariable String cnpj) {
+        return new ResponseEntity<>(userRepository.findByCpf(cnpj), HttpStatus.OK);
+    }
 	
 	
 
