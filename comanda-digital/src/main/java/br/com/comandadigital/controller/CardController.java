@@ -33,6 +33,12 @@ public class CardController {
         return new ResponseEntity<List<Card>>(cardService.listAllOpenCards(), HttpStatus.OK);
     }
 
+/*    @GetMapping(path = "/findOpenCardsByStoreId/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<Card> findOpenCardsByStoreId(@PathVariable long idStore) {
+        return new ResponseEntity<Card>(cardService.findOpenCardsByStoreId(idStore), HttpStatus.OK);
+    }*/
+
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<Card> save(@RequestBody Card card) {
@@ -49,4 +55,13 @@ public class CardController {
     public ResponseEntity<List<Card>> findByCPF(@RequestBody VoCardCpf cpf){
         return new ResponseEntity<List<Card>>(cardService.findByCpf(cpf), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/find/store/{idStore}/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<Card> findByIdStoreAndIdCard(@PathVariable long idStore, @PathVariable long idCard){
+        return new ResponseEntity<Card>(cardService.findByIdStoreAndIdCard(idStore, idCard), HttpStatus.OK);
+    }
+
+
+
 }

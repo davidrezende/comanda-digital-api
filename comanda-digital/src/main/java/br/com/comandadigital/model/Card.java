@@ -44,10 +44,10 @@ public class Card {
 
     private Date endDate;
 
-//
-//    @ManyToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "id_store")
-//    private Store store;
+
+    @ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_store")
+    private Store store;
 
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
