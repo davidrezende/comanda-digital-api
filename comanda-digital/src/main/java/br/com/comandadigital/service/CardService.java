@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -22,6 +23,17 @@ public class CardService {
 	public Card update(Card card){
 		log.info(CardLog.UPDATE_LOG);
 		return cardRepository.save(card);
+	}
+
+	public Card updateAndCloseCard(Card card) throws Exception {
+		Card closedCard = new Card();
+		log.info(CardLog.UPDATE_CLOSE_CARD);
+		Optional<Card> foundCard = cardRepository.findById(card.getIdCard());
+		Boolean found = foundCard.isPresent() ? true : false;
+		if (!found)
+			throw new Exception("Comanda nao encontrada!");
+		foundCard.get().setEndDate(new Date());
+		return cardRepository.save(foundCard.get());
 	}
 
 	public Card save(Card card){
@@ -36,9 +48,9 @@ public class CardService {
 
 	}
 
-	public List<Card> listAllOpenCards(){
+	public List<Card> listAllOpenCards(long idStore){
 		log.info(CardLog.LIST_OPEN_LOG);
-		return cardRepository.findByEndDateIsNull();
+		return cardRepository.findByStore_idStoreAndEndDateIsNull(idStore);
 	}
 //
 //	public Card findOpenCardsByStoreId(long idStore){

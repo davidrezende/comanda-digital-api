@@ -28,9 +28,10 @@ public class CardController {
         return new ResponseEntity<List<Card>>(cardService.listAll(), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Card>> listAllOpenCards() {
-        return new ResponseEntity<List<Card>>(cardService.listAllOpenCards(), HttpStatus.OK);
+    @GetMapping(path = "/listAllOpenCards/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Card>> listAllOpenCards(@PathVariable long idStore) {
+        return new ResponseEntity<List<Card>>(cardService.listAllOpenCards(idStore), HttpStatus.OK);
     }
 
 /*    @GetMapping(path = "/findOpenCardsByStoreId/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -49,6 +50,12 @@ public class CardController {
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody Card card) {
         return new ResponseEntity<>(cardService.update(card), HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> updateAndCloseCard(@RequestBody Card card) throws Exception {
+        return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.CREATED);
     }
 
     @PostMapping(path = "/findByCPF", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
