@@ -34,7 +34,7 @@ public class Card {
 	
 	@NotNull(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
 	//@Size(min = 1, max = 3, message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
-    private Long tableNumber;
+    private int tableNumber;
 	
 	@NotNull(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
 	//@Size(min = 1, max = 3, message = CardValidation.AMOUNT_PEOPLE_VALIDATION_MESSAGE)
