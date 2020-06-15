@@ -1,6 +1,7 @@
 package br.com.comandadigital.controller;
 
 import br.com.comandadigital.model.Card;
+import br.com.comandadigital.model.Store;
 import br.com.comandadigital.model.vo.VoCardCpf;
 import br.com.comandadigital.repository.CardRepository;
 import br.com.comandadigital.service.CardService;
@@ -49,13 +50,13 @@ public class CardController {
     @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody Card card) {
-        return new ResponseEntity<>(cardService.update(card), HttpStatus.CREATED);
+        return new ResponseEntity<>(cardService.update(card), HttpStatus.OK);
     }
 
     @PostMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateAndCloseCard(@RequestBody Card card) throws Exception {
-        return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.CREATED);
+        return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.OK);
     }
 
     @PostMapping(path = "/findByCPF", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -68,6 +69,13 @@ public class CardController {
     public ResponseEntity<Card> findByIdStoreAndIdCard(@PathVariable long idStore, @PathVariable long idCard){
         return new ResponseEntity<Card>(cardService.findByIdStoreAndIdCard(idStore, idCard), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/find/store/{idStore}/tableNumber/{tableNumber}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Card>> findByIdStoreAndTableNumberAndOpenCards(@PathVariable long idStore, @PathVariable int tableNumber){
+        return new ResponseEntity<List<Card>>(cardService.findByIdStoreAndTableNumberAndOpenCards(idStore, tableNumber), HttpStatus.OK);
+    }
+
 
 
 

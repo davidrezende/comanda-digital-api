@@ -25,6 +25,7 @@ public class ProductCardService {
 
 	public ProductCard update(ProductCard productCard) {
 //		log.info(LogConstants.UPDATE_PRODUCT_CARD);
+		productCard.setDateRegistration(new Date());
 		return productCardRepository.save(productCard);
 	}
 	
