@@ -28,10 +28,10 @@ public class CardService {
 	public Card updateAndCloseCard(Card card) throws Exception {
 		Card closedCard = new Card();
 		log.info(CardLog.UPDATE_CLOSE_CARD);
-		Optional<Card> foundCard = cardRepository.findById(card.getIdCard());
+		Optional<Card> foundCard = Optional.ofNullable(cardRepository.findByIdCardAndEndDateIsNull(card.getIdCard()));
 		Boolean found = foundCard.isPresent() ? true : false;
 		if (!found)
-			throw new Exception("Comanda nao encontrada!");
+			throw new Exception("Comanda nao encontrada ou ja estah fechada!");
 		foundCard.get().setEndDate(new Date());
 		return cardRepository.save(foundCard.get());
 	}
