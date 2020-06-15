@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CardRepository extends PagingAndSortingRepository<Card, Long> {
     List<Card> findAll();
-    List<Card> findByEndDateIsNull();
+    List<Card> findByStore_idStoreAndEndDateIsNull(long idStore);
+    Card findByStore_idStoreAndIdCard(long idStore, long idCard);
     List<Card> findByUser_Cpf(String cpf);
+    Card findByIdCardAndEndDateIsNull(long idCard);
 }

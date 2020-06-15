@@ -80,8 +80,8 @@ public class UserController {
 
     @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseEntity<?> findByCnpjLike(@PathVariable String cnpj) {
-        return new ResponseEntity<>(userRepository.findByCpf(cnpj), HttpStatus.OK);
+    public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
+        return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
     }
 	
 	
