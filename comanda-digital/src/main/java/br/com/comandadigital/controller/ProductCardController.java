@@ -38,14 +38,14 @@ public class ProductCardController {
 
 	@PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<ProductCard> addProduct(@RequestBody ProductCard productCard){
+	public ResponseEntity<ProductCard> addProduct(@RequestBody ProductCard productCard) throws Exception {
 		return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
 	}
 
 	@PostMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<ProductCard> updateProduct(@RequestBody ProductCard productCard){
-		return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.CREATED);
+	public ResponseEntity<ProductCard> updateProduct(@RequestBody ProductCard productCard) throws Exception {
+		return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

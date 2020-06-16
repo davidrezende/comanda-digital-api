@@ -12,4 +12,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
     List<Product> findByStatusAndStore_idStore(int status, long idStore);
 	Integer deleteByIdProductAndStore_IdStore(long idProduct, long idStore);
 	Product findByIdProductAndStatusAndStore_IdStore(long idProduct, int status, long idStore);
+	Product findByIdProduct(long idProduct);
 }

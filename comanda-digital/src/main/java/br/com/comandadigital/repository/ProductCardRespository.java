@@ -11,5 +11,7 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 
 	List<ProductCard> findByCard_idCardAndCard_EndDateIsNull(Long idCard);
 	List<ProductCard> findByCard_EndDateIsNull();
+	ProductCard findByCard_IdCardAndProduct_IdProduct(long idCard, long idProduct);
 	List<ProductCard> findAll();
+	long deleteByIdProductCard(long idProductCard);
 }
