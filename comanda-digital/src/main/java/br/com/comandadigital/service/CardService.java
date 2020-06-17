@@ -64,6 +64,15 @@ public class CardService {
 		return cardRepository.findByStore_idStoreAndTableNumberAndEndDateIsNull(idStore, tableNumber);
 	}
 
+	public Card findLastOpenCardByIdUser(long idUser){
+		log.info(CardLog.FIND_LAST_OPEN_BY_USER);
+		return cardRepository.findFirstByUser_IdUserAndEndDateIsNullOrderByBeginDateDesc(idUser);
+	}
+
+	public List<Card> findClosedCardsByIdUser(long idUser){
+		log.info(CardLog.FIND_CLOSED_BY_USER);
+		return cardRepository.findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(idUser);
+	}
 
 	public List<Card> findByCpf(VoCardCpf cpf){
 //		log.info(LogConstants.LIST_ALL_STORES);
