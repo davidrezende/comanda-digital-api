@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import br.com.comandadigital.constants.log.ProductCardLog;
-import br.com.comandadigital.model.Card;
 import br.com.comandadigital.model.Product;
 import br.com.comandadigital.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class ProductCardService {
 	
 	public List<ProductCard> listByCard(Long idCard){
 //		log.info(LogConstants.LIST_BY_CARD);		
-		return productCardRepository.findByCard_idCardAndCard_EndDateIsNull(idCard);
+		return productCardRepository.findByCard_idCard(idCard);
 	}
 
 	public List<ProductCard> listAllOpenCards (){

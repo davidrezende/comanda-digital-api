@@ -9,7 +9,7 @@ import br.com.comandadigital.model.ProductCard;
 
 public interface ProductCardRespository extends PagingAndSortingRepository<ProductCard, Long>{
 
-	List<ProductCard> findByCard_idCardAndCard_EndDateIsNull(Long idCard);
+	List<ProductCard> findByCard_idCard(Long idCard);
 	List<ProductCard> findByCard_EndDateIsNull();
 	ProductCard findByCard_IdCardAndProduct_IdProduct(long idCard, long idProduct);
 	List<ProductCard> findAll();

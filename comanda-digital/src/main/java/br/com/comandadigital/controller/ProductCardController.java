@@ -29,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProductCardController {
 	private final ProductCardService productCardService;
-	
+
 	@GetMapping(path = "/find/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
 	@ResponseBody
 	public ResponseEntity<?> listByCard(@PathVariable Long idCard){

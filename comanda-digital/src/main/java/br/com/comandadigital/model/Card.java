@@ -44,7 +44,6 @@ public class Card {
 
     private Date endDate;
 
-
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_store")
     private Store store;

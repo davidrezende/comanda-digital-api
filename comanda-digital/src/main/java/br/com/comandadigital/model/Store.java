@@ -35,7 +35,7 @@ public class Store implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idStore;
 
-   // @CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
+    @CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
     private String cnpj;
 
     @NotBlank(message = StoreValidation.NAME_VALIDATION_MESSAGE)
@@ -43,7 +43,7 @@ public class Store implements Serializable {
     private String name;
 
     @NotBlank(message = StoreValidation.PHONE_VALIDATION_MESSAGE)
-    @Size( min = 10, max = 11, message = StoreValidation.PHONE_VALIDATION_MESSAGE)
+    @Size( min = 10, max = 15, message = StoreValidation.PHONE_VALIDATION_MESSAGE)
     private String phone;
 
     @NotBlank(message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
