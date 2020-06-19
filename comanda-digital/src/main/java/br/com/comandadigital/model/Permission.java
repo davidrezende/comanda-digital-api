@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Getter
@@ -25,8 +26,9 @@ public class Permission implements Serializable {
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idPermission;
+
     @NotBlank
     @Column(nullable = false)
     private String description;
-    
+
 }

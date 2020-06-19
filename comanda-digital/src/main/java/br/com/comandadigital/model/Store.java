@@ -35,7 +35,8 @@ public class Store implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idStore;
 
-    @CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
+    //@CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
+    @Column(unique = true)
     private String cnpj;
 
     @NotBlank(message = StoreValidation.NAME_VALIDATION_MESSAGE)

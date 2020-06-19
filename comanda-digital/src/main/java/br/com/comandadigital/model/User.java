@@ -57,13 +57,19 @@ public class User implements Serializable {
     @Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
     private String name;
 
+    //@NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)
+    //@Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
+    @Column(unique = true)
+    private String email; //TODO: realizar validacao de email
+
     @ToString.Exclude
     //@CPF(message = UserValidation.CPF_VALIDATION_MESSAGE)
+    @Column(unique = true)
     private String cpf;
 
     @ToString.Exclude
     @NotBlank(message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
-    @Size( min = 8, max = 16, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
+    @Size( min = 8, max = 255, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
     private String password;
 
    
@@ -78,6 +84,14 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Card> cards;
-    
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tb_user_permission",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_permission"))
+    private List<Permission> userPermissions;
+
+
     
 }
