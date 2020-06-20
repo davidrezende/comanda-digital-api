@@ -82,6 +82,12 @@ public class CardController {
         return new ResponseEntity<List<Card>> (cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
     }
 
+//    @GetMapping(path = "/find/closed/date/{beginDate}/{endDate}/user/{idUser}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @ResponseBody
+//    public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@PathVariable long idUser){
+//        return new ResponseEntity<List<Card>> (cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
+//    }
+
     @GetMapping(path = "/find/store/{idStore}/tableNumber/{tableNumber}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<List<Card>> findByIdStoreAndTableNumberAndOpenCards(@PathVariable long idStore, @PathVariable int tableNumber){

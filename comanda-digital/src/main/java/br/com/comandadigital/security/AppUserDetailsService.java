@@ -1,7 +1,7 @@
 package br.com.comandadigital.security;
 
+import br.com.comandadigital.model.vo.VoUserSystem;
 import br.com.comandadigital.repository.UserRepository;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +27,7 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<br.com.comandadigital.model.User> userOptional = userRepository.findByEmail(email);
         br.com.comandadigital.model.User user = userOptional.orElseThrow(() -> new UsernameNotFoundException("Usuario e/ou senha incorretos"));
-        return new User(email, user.getPassword(), getPermissions(user) );
+        return new VoUserSystem(user, getPermissions(user));
     }
 
     private Collection<? extends GrantedAuthority> getPermissions(br.com.comandadigital.model.User user) {

@@ -14,13 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.br.CPF;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import br.com.comandadigital.constants.entity.UserValidation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -92,6 +86,4 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_permission"))
     private List<Permission> userPermissions;
 
-
-    
 }

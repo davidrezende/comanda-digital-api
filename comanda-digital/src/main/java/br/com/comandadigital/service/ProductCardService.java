@@ -76,4 +76,5 @@ public class ProductCardService {
 		return productCardRepository.findAll();
 	}
 	
+	
 }
