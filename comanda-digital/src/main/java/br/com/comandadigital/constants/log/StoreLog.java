@@ -2,8 +2,8 @@ package br.com.comandadigital.constants.log;
 
 public final class StoreLog {
 
-    public static final String CNPJ_VALIDATION_MESSAGE                =       "CNPJ invalido";
-    public static final String NAME_VALIDATION_MESSAGE                =       "Nome do estabelecimento invalido";
-    public static final String PHONE_VALIDATION_MESSAGE               =       "Telefone invalido";
-    public static final String ADDRESS_VALIDATION_MESSAGE             =       "Endereco invalido";
+    public static final String SAVE_LOG                               =       "Salvando estabelecimento";
+    public static final String UPDATE_LOG                             =       "Alterando estabelecimento";
+    public static final String LIST_LOG                               =       "Listando estabelecimentos";
+    public static final String FIND_USER_LOG                          =       "Buscando estabelecimentos por Usuario";
 }

@@ -8,8 +8,9 @@ import br.com.comandadigital.model.Product;
 import br.com.comandadigital.model.Store;
 
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long> {
-
-    List<Product> findByNameContainingAndStore_IdStore(String name, Long idSore);
-    List<Product> findByStore_idStore(Long idStore);
-	
+    List<Product> findByNameContainingAndStore_IdStore(String name, long idSore);
+    List<Product> findByStatusAndStore_idStore(int status, long idStore);
+	Integer deleteByIdProductAndStore_IdStore(long idProduct, long idStore);
+	Product findByIdProductAndStatusAndStore_IdStore(long idProduct, int status, long idStore);
+	Product findByIdProduct(long idProduct);
 }

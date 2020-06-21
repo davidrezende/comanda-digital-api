@@ -29,7 +29,7 @@ public class CardService {
 		Card closedCard = new Card();
 		log.info(CardLog.UPDATE_CLOSE_CARD);
 		Optional<Card> foundCard = Optional.ofNullable(cardRepository.findByIdCardAndEndDateIsNull(card.getIdCard()));
-		Boolean found = foundCard.isPresent() ? true : false;
+		boolean found = foundCard.isPresent();
 		if (!found)
 			throw new Exception("Comanda nao encontrada ou ja estah fechada!");
 		foundCard.get().setEndDate(new Date());
@@ -52,17 +52,27 @@ public class CardService {
 		log.info(CardLog.LIST_OPEN_LOG);
 		return cardRepository.findByStore_idStoreAndEndDateIsNull(idStore);
 	}
-//
-//	public Card findOpenCardsByStoreId(long idStore){
-////		log.info(LogConstants.LIST_ALL_STORES);
-//		return cardRepository.findByStore_IdStoreAndEndDateIsNull(idStore);
-//	}
+
 
 	public Card findByIdStoreAndIdCard (long idStore, long idCard){
-		log.info(CardLog.FINDB_STOREID_CARDID);
+		log.info(CardLog.FIND_STOREID_CARDID);
 		return cardRepository.findByStore_idStoreAndIdCard(idStore, idCard);
 	}
 
+	public List<Card> findByIdStoreAndTableNumberAndOpenCards(long idStore, int tableNumber){
+		log.info(CardLog.FIND_STOREID_TABLENUMBER);
+		return cardRepository.findByStore_idStoreAndTableNumberAndEndDateIsNull(idStore, tableNumber);
+	}
+
+	public Card findLastOpenCardByIdUser(long idUser){
+		log.info(CardLog.FIND_LAST_OPEN_BY_USER);
+		return cardRepository.findFirstByUser_IdUserAndEndDateIsNullOrderByBeginDateDesc(idUser);
+	}
+
+	public List<Card> findClosedCardsByIdUser(long idUser){
+		log.info(CardLog.FIND_CLOSED_BY_USER);
+		return cardRepository.findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(idUser);
+	}
 
 	public List<Card> findByCpf(VoCardCpf cpf){
 //		log.info(LogConstants.LIST_ALL_STORES);

@@ -49,18 +49,19 @@ public class CardController {
     @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody Card card) {
-        return new ResponseEntity<>(cardService.update(card), HttpStatus.CREATED);
+        return new ResponseEntity<>(cardService.update(card), HttpStatus.OK);
     }
 
     @PostMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateAndCloseCard(@RequestBody Card card) throws Exception {
-        return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.CREATED);
+        return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.OK);
     }
 
     @PostMapping(path = "/findByCPF", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Card>> findByCPF(@RequestBody VoCardCpf cpf){
-        return new ResponseEntity<List<Card>>(cardService.findByCpf(cpf), HttpStatus.OK);
+    public ResponseEntity<List<Card>> findByCPF(VoCardCpf vo){
+        log.info(vo.toString());
+        return new ResponseEntity<List<Card>>(cardService.findByCpf(vo), HttpStatus.OK);
     }
 
     @GetMapping(path = "/find/store/{idStore}/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -68,6 +69,31 @@ public class CardController {
     public ResponseEntity<Card> findByIdStoreAndIdCard(@PathVariable long idStore, @PathVariable long idCard){
         return new ResponseEntity<Card>(cardService.findByIdStoreAndIdCard(idStore, idCard), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/find/last/open/user/{idUser}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<Card> findOpenCardsByIdUser(@PathVariable long idUser){
+        return new ResponseEntity<Card>(cardService.findLastOpenCardByIdUser(idUser), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/find/closed/user/{idUser}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@PathVariable long idUser){
+        return new ResponseEntity<List<Card>> (cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
+    }
+
+//    @GetMapping(path = "/find/closed/date/{beginDate}/{endDate}/user/{idUser}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @ResponseBody
+//    public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@PathVariable long idUser){
+//        return new ResponseEntity<List<Card>> (cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
+//    }
+
+    @GetMapping(path = "/find/store/{idStore}/tableNumber/{tableNumber}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Card>> findByIdStoreAndTableNumberAndOpenCards(@PathVariable long idStore, @PathVariable int tableNumber){
+        return new ResponseEntity<List<Card>>(cardService.findByIdStoreAndTableNumberAndOpenCards(idStore, tableNumber), HttpStatus.OK);
+    }
+
 
 
 

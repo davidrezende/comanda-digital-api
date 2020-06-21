@@ -1,7 +1,9 @@
 package br.com.comandadigital.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import br.com.comandadigital.constants.log.ProductLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,27 +19,42 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
 
 	private final ProductRepository productRepository;
-	
-	public List<Product> listByStore(Long IdStore){
-//		log.info(LogConstants.LIST_ALL_PRODUCTS_BY_STORE);
-		return productRepository.findByStore_idStore(IdStore);
+	private final int ACTIVE = 1;
+	private final int DISABLE = 2;
+
+	public List<Product> listByStore(long IdStore){
+		log.info(ProductLog.LIST_LOG);
+		return productRepository.findByStatusAndStore_idStore(ACTIVE, IdStore);
 	}
 
-	public List<Product> listByNameAndStore(String name,Long idStore){
-//		log.info(LogConstants.LIST_ALL_PRODUCTS_BY_STORE);
+	public List<Product> listByNameAndStore(String name,long idStore){
+		log.info(ProductLog.LIST_NAME_STORE_LOG);
 		return productRepository.findByNameContainingAndStore_IdStore(name, idStore);
 	}	
 	
-	
 	public Product save(Product product) {
-//		log.info(LogConstants.SAVE_PRODUCT);		
+		log.info(ProductLog.SAVE_LOG);
 		return productRepository.save(product);
 	}
-	
-	
+
 	public Product update(Product product) {
-//		log.info(LogConstants.UPDATE_PRODUCT);		
+		log.info(ProductLog.UPDATE_LOG);
 		return productRepository.save(product);
 	}
-	
+
+	public Integer delete(Product product) {
+		log.info(ProductLog.DELETE_LOG);
+		return productRepository.deleteByIdProductAndStore_IdStore(product.getIdProduct(), product.getStore().getIdStore());
+	}
+
+	public Product disable(Product product) throws Exception {
+		log.info(ProductLog.DISABLE_LOG);
+		Optional<Product> foundProduct = Optional.ofNullable(productRepository.findByIdProductAndStatusAndStore_IdStore(product.getIdProduct(), ACTIVE, product.getStore().getIdStore()));
+		boolean found = foundProduct.isPresent();
+		if (!found)
+			throw new Exception("Produto não existente ou já desabilitado");
+		foundProduct.get().setStatus(DISABLE);
+		return productRepository.save(foundProduct.get());
+	}
+
 }
