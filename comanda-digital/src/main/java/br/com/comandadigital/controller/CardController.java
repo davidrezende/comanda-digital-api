@@ -1,6 +1,7 @@
 package br.com.comandadigital.controller;
 
 import br.com.comandadigital.model.Card;
+import br.com.comandadigital.model.vo.VoCardClosedDate;
 import br.com.comandadigital.model.vo.VoCardCpf;
 import br.com.comandadigital.repository.CardRepository;
 import br.com.comandadigital.service.CardService;
@@ -82,11 +83,10 @@ public class CardController {
         return new ResponseEntity<List<Card>> (cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
     }
 
-//    @GetMapping(path = "/find/closed/date/{beginDate}/{endDate}/user/{idUser}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    @ResponseBody
-//    public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@PathVariable long idUser){
-//        return new ResponseEntity<List<Card>> (cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
-//    }
+    @PostMapping(path = "/find/closedCardsByUserAndDate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@RequestBody VoCardClosedDate vo){
+        return new ResponseEntity<List<Card>> (cardService.findClosedCardsByBeginDate(vo), HttpStatus.OK);
+    }
 
     @GetMapping(path = "/find/store/{idStore}/tableNumber/{tableNumber}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody

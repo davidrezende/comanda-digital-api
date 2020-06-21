@@ -41,7 +41,6 @@ public class Card {
     private int amountPeople;
 
     private Date beginDate;
-
     private Date endDate;
 
     @ManyToOne( fetch = FetchType.EAGER)

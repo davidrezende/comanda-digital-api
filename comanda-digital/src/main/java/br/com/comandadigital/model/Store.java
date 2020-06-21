@@ -37,6 +37,7 @@ public class Store implements Serializable {
 
     //@CNPJ(message = StoreValidation.CNPJ_VALIDATION_MESSAGE)
     @Column(unique = true)
+    @ToString.Exclude
     private String cnpj;
 
     @NotBlank(message = StoreValidation.NAME_VALIDATION_MESSAGE)
@@ -44,6 +45,7 @@ public class Store implements Serializable {
     private String name;
 
     @NotBlank(message = StoreValidation.PHONE_VALIDATION_MESSAGE)
+    @ToString.Exclude
     @Size( min = 10, max = 15, message = StoreValidation.PHONE_VALIDATION_MESSAGE)
     private String phone;
 

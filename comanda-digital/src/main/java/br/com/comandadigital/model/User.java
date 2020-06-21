@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,8 +52,9 @@ public class User implements Serializable {
     @Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
     private String name;
 
-    //@NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)
-    //@Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
+    @NotBlank(message = UserValidation.EMAIL_VALIDATION_MESSAGE)
+    @ToString.Exclude
+    @Email( message = UserValidation.EMAIL_VALIDATION_MESSAGE)
     @Column(unique = true)
     private String email; //TODO: realizar validacao de email
 

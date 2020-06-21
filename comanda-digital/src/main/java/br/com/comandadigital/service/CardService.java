@@ -2,6 +2,7 @@ package br.com.comandadigital.service;
 
 import br.com.comandadigital.constants.log.CardLog;
 import br.com.comandadigital.model.Card;
+import br.com.comandadigital.model.vo.VoCardClosedDate;
 import br.com.comandadigital.model.vo.VoCardCpf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,23 +56,29 @@ public class CardService {
 
 
 	public Card findByIdStoreAndIdCard (long idStore, long idCard){
-		log.info(CardLog.FIND_STOREID_CARDID);
+		log.info(CardLog.FIND_STOREID_CARDID_LOG);
 		return cardRepository.findByStore_idStoreAndIdCard(idStore, idCard);
 	}
 
 	public List<Card> findByIdStoreAndTableNumberAndOpenCards(long idStore, int tableNumber){
-		log.info(CardLog.FIND_STOREID_TABLENUMBER);
+		log.info(CardLog.FIND_STOREID_TABLENUMBER_LOG);
 		return cardRepository.findByStore_idStoreAndTableNumberAndEndDateIsNull(idStore, tableNumber);
 	}
 
 	public Card findLastOpenCardByIdUser(long idUser){
-		log.info(CardLog.FIND_LAST_OPEN_BY_USER);
+		log.info(CardLog.FIND_LAST_OPEN_BY_USER_LOG);
 		return cardRepository.findFirstByUser_IdUserAndEndDateIsNullOrderByBeginDateDesc(idUser);
 	}
 
 	public List<Card> findClosedCardsByIdUser(long idUser){
-		log.info(CardLog.FIND_CLOSED_BY_USER);
+		log.info(CardLog.FIND_CLOSED_BY_USER_LOG);
 		return cardRepository.findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(idUser);
+	}
+
+	public List<Card> findClosedCardsByBeginDate(VoCardClosedDate vo){
+		log.info(CardLog.FIND_CLOSED_BY_DATE_USER_LOG);
+		return cardRepository.findByUser_idUserAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
+				vo.getIdUser(), vo.getFirstDate(), vo.getSecondDate());
 	}
 
 	public List<Card> findByCpf(VoCardCpf cpf){
