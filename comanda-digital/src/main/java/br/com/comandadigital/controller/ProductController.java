@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,30 +30,35 @@ public class ProductController {
 	private final ProductService productService;
 	
 	@GetMapping(path = "/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
 	@ResponseBody
 	public ResponseEntity<?> listByStore( @PathVariable Long idStore){
 		return new ResponseEntity<>(productService.listByStore(idStore), HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/find/name/{name}/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
 	@ResponseBody
 	public ResponseEntity<?> listByNameAndStore(@PathVariable String name, @PathVariable Long idStore){
 		return new ResponseEntity<>( productService.listByNameAndStore(name, idStore), HttpStatus.OK);
 	}
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
 	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<Product> save(@RequestBody Product product){
 		return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
 	}
 
 	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
 	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> update(@RequestBody Product product){
 		return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
 	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> disable(@RequestBody Product product) throws Exception {
 		return new ResponseEntity<>(productService.disable(product), HttpStatus.OK);

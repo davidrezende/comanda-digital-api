@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,29 +32,34 @@ public class ProductCardController {
 	private final ProductCardService productCardService;
 
 	@GetMapping(path = "/find/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
 	@ResponseBody
 	public ResponseEntity<?> listByCard(@PathVariable Long idCard){
 		return new ResponseEntity<>(productCardService.listByCard(idCard), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
 	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<ProductCard> addProduct(@RequestBody ProductCard productCard) throws Exception {
 		return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
 	}
 
 	@PostMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
 	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<ProductCard> updateProduct(@RequestBody ProductCard productCard) throws Exception {
 		return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
 	public ResponseEntity<List<ProductCard>> listAllOpenCards() {
 		return new ResponseEntity<List<ProductCard>>(productCardService.listAllOpenCards(), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
 	public ResponseEntity<List<ProductCard>> listAll() {
 		return new ResponseEntity<List<ProductCard>>(productCardService.listAll(), HttpStatus.OK);
 	}

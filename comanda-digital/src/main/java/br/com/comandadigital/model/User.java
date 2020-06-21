@@ -56,7 +56,7 @@ public class User implements Serializable {
     @ToString.Exclude
     @Email( message = UserValidation.EMAIL_VALIDATION_MESSAGE)
     @Column(unique = true)
-    private String email; //TODO: realizar validacao de email
+    private String email;
 
     @ToString.Exclude
     //@CPF(message = UserValidation.CPF_VALIDATION_MESSAGE)

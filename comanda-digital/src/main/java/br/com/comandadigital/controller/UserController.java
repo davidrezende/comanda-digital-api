@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class UserController {
 	}
 	
 	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
 	//@ApiOperation(value = "List all users", response = ResponseEntity.class)
 	public ResponseEntity<Iterable<User>> listAll(Pageable pageable){
 		return new ResponseEntity<>(userService.listAll(pageable), HttpStatus.OK);
@@ -53,6 +55,7 @@ public class UserController {
 	
 	
 	@GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
 	//@ApiOperation(value = "List all users", response = ResponseEntity.class)
 	public ResponseEntity<List<User>> listAll(){
 		return new ResponseEntity<List<User>>(userService.listAll(), HttpStatus.OK);
@@ -60,6 +63,7 @@ public class UserController {
 	
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
 	@Transactional(rollbackFor = Exception.class)
 	//@ApiOperation(value = "Save object user", response = ResponseEntity.class)
 	public ResponseEntity<User> save(@RequestBody User user){
