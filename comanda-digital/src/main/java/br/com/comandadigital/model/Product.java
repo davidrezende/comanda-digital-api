@@ -31,7 +31,7 @@ public class Product {
     private Long idProduct;
 
     @NotBlank( message = ProductValidation.NAME_VALIDATION_MESSAGE)
-    @Size( min = 5, max = 100, message = StoreValidation.NAME_VALIDATION_MESSAGE)
+    @Size( min = 1, max = 100, message = StoreValidation.NAME_VALIDATION_MESSAGE)
     private String name;
 
     @NotBlank( message = ProductValidation.DESCRIPTION_VALIDATION_MESSAGE)
@@ -45,7 +45,7 @@ public class Product {
 
     private Integer status = 1;
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_store")
     private Store store;
 }

@@ -1,13 +1,17 @@
 package br.com.comandadigital.controller;
 
 
+import br.com.comandadigital.error.ErrorObject;
+import br.com.comandadigital.error.ErrorResponse;
+import br.com.comandadigital.error.RestExceptionHandler;
 import br.com.comandadigital.model.Store;
 import br.com.comandadigital.repository.StoreRepository;
 import br.com.comandadigital.service.StoreService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("v1/store")
 @Slf4j
+@Api(value = "Endpoints de Estabelecimento")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StoreController {
     private final StoreRepository storeRepository;
@@ -33,16 +38,27 @@ public class StoreController {
     }
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @Transactional(rollbackFor = Exception.class)
+    //@Transactional(rollbackFor = Exception.class)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
-    public ResponseEntity<Store> save(@RequestBody Store store) {
-        return new ResponseEntity<>(storeService.save(store), HttpStatus.CREATED);
+    public ResponseEntity<?> save(@RequestBody @Valid Store store) {
+        try{
+            return new ResponseEntity<>(storeService.save(store), HttpStatus.CREATED);
+        }catch(DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @Transactional(rollbackFor = Exception.class)
-    public ResponseEntity<?> update(@RequestBody Store store) {
-        return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
+    //@Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> update(@RequestBody @Valid Store store) {
+//        return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
+        }catch(DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

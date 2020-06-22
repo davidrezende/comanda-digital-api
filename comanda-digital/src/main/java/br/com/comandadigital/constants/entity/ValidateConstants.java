@@ -1,5 +1,6 @@
 package br.com.comandadigital.constants.entity;
 
-public class ValidateConstants {
-    public static final String VALIDATE_DEFAULT_ERROR        =      "Ocorreu um erro. Tente novamente mais tarde!";
+public final class ValidateConstants {
+    public static final String VALIDATE_DEFAULT_ERROR            =      "Dados incorretos.";
+    public static final String VALIDATE_CONSTRAINT_ERROR         =      "Dados duplicados.";
 }

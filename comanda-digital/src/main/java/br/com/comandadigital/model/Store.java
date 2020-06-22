@@ -41,7 +41,7 @@ public class Store implements Serializable {
     private String cnpj;
 
     @NotBlank(message = StoreValidation.NAME_VALIDATION_MESSAGE)
-    @Size( min = 10, max = 100, message = StoreValidation.NAME_VALIDATION_MESSAGE)
+    @Size( min = 5, max = 100, message = StoreValidation.NAME_VALIDATION_MESSAGE)
     private String name;
 
     @NotBlank(message = StoreValidation.PHONE_VALIDATION_MESSAGE)

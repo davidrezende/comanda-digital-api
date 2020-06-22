@@ -11,4 +11,6 @@ public final class CardLog {
     public static final String FIND_LAST_OPEN_BY_USER_LOG   =         "Listando ultima comanda aberta por Cliente";
     public static final String FIND_CLOSED_BY_USER_LOG      =         "Listando comandas fechadas por Cliente ordernado por Data de Abertura";
     public static final String FIND_CLOSED_BY_DATE_USER_LOG =         "Listando comandas fechadas por Cliente e por Data de Abertura ordenando por Data de Abertura";
+    public static final String FIND_CLOSED_BY_DATE_STORE_LOG =         "Listando comandas fechadas por Estabelecimento e por Data de Abertura ordenando por Data de Abertura";
+    public static final String FIND_ID_CARD_LOG              =        "Listando comandas por Id da Comanda";
 }

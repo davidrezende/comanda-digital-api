@@ -60,6 +60,11 @@ public class CardService {
 		return cardRepository.findByStore_idStoreAndIdCard(idStore, idCard);
 	}
 
+	public Card findByIdCard (long idCard){
+		log.info(CardLog.FIND_ID_CARD_LOG);
+		return cardRepository.findByIdCard(idCard);
+	}
+
 	public List<Card> findByIdStoreAndTableNumberAndOpenCards(long idStore, int tableNumber){
 		log.info(CardLog.FIND_STOREID_TABLENUMBER_LOG);
 		return cardRepository.findByStore_idStoreAndTableNumberAndEndDateIsNull(idStore, tableNumber);
@@ -75,10 +80,21 @@ public class CardService {
 		return cardRepository.findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(idUser);
 	}
 
-	public List<Card> findClosedCardsByBeginDate(VoCardClosedDate vo){
-		log.info(CardLog.FIND_CLOSED_BY_DATE_USER_LOG);
-		return cardRepository.findByUser_idUserAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
-				vo.getIdUser(), vo.getFirstDate(), vo.getSecondDate());
+//	public List<Card> findClosedCardsByBeginDate(VoCardClosedDate vo){
+//		log.info(CardLog.FIND_CLOSED_BY_DATE_USER_LOG);
+//		return cardRepository.findByUser_idUserAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
+//				vo.getIdUser(), vo.getFirstDate(), vo.getSecondDate());
+//	}
+
+	public List<Card> findClosedCardsByStoreAndBeginDate(VoCardClosedDate vo){
+		log.info(CardLog.FIND_CLOSED_BY_DATE_STORE_LOG);
+			if(vo.getFirstDate() == null || vo.getSecondDate() == null){
+				return cardRepository.findByStore_idStoreAndEndDateIsNotNullOrderByBeginDateDesc(
+						vo.getIdStore());
+			}else{
+				return cardRepository.findByStore_idStoreAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
+					vo.getIdStore(), vo.getFirstDate(), vo.getSecondDate());
+			}
 	}
 
 	public List<Card> findByCpf(VoCardCpf cpf){

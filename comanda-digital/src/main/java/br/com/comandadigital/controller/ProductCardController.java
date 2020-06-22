@@ -1,7 +1,11 @@
 package br.com.comandadigital.controller;
 
+import br.com.comandadigital.error.ErrorResponse;
+import br.com.comandadigital.error.RestExceptionHandler;
 import br.com.comandadigital.model.Card;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +25,7 @@ import br.com.comandadigital.service.ProductCardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -28,6 +33,7 @@ import java.util.List;
 @RequestMapping("v1/productCard")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(value = "Endpoints de Produto Comanda")
 public class ProductCardController {
 	private final ProductCardService productCardService;
 
@@ -40,16 +46,28 @@ public class ProductCardController {
 
 	@PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
-	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<ProductCard> addProduct(@RequestBody ProductCard productCard) throws Exception {
-		return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
+//	@Transactional(rollbackFor =  Exception.class)
+	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
+//		return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
+		try{
+			return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
+		}catch(DataIntegrityViolationException e) {
+			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@PostMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
 	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<ProductCard> updateProduct(@RequestBody ProductCard productCard) throws Exception {
-		return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
+	public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
+//		return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
+		try{
+			return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
+		}catch(DataIntegrityViolationException e) {
+			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

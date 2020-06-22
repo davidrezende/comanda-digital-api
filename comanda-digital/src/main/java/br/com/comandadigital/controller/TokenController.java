@@ -1,6 +1,7 @@
 package br.com.comandadigital.controller;
 
 import br.com.comandadigital.constants.log.TokenLog;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("v1/tokens")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Api(value = "Endpoints de Tokens")
 public class TokenController {
 
     @DeleteMapping("/revoke")

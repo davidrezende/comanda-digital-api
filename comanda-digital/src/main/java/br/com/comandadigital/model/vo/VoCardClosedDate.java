@@ -2,6 +2,7 @@ package br.com.comandadigital.model.vo;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -12,7 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 @ToString
 public class VoCardClosedDate {
-    private long idUser;
+
+    @NotNull(message = "Estabelecimento invalido")
+    private long idStore;
     private Date firstDate;
     private Date secondDate;
 }

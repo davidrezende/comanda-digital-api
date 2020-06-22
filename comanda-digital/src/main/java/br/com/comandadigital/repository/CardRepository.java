@@ -18,4 +18,7 @@ public interface CardRepository extends PagingAndSortingRepository<Card, Long> {
     Card findFirstByUser_IdUserAndEndDateIsNullOrderByBeginDateDesc(long idUser);
     List<Card> findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(long idUser);
     List<Card> findByUser_idUserAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(long idUser, Date beginDate, Date endDate);
+    Card findByIdCard(long idCard);
+    List<Card> findByStore_idStoreAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(long idStore, Date firstDate, Date secondDate);
+    List<Card> findByStore_idStoreAndEndDateIsNotNullOrderByBeginDateDesc(long idStore);
 }

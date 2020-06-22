@@ -4,7 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.com.comandadigital.error.ErrorResponse;
+import br.com.comandadigital.error.RestExceptionHandler;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("v1/user")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-//@Api(value = "User endpoints")
+@Api(value = "Endpoints de Usuário")
 public class UserController {
 	
 	private final UserService  userService;
@@ -64,16 +68,31 @@ public class UserController {
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
-	@Transactional(rollbackFor = Exception.class)
+//	@Transactional(rollbackFor = Exception.class)
 	//@ApiOperation(value = "Save object user", response = ResponseEntity.class)
-	public ResponseEntity<User> save(@RequestBody User user){
-		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+	public ResponseEntity<?> save(@RequestBody @Valid User user){
+//		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+		try{
+			return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+		}catch(DataIntegrityViolationException e) {
+			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional(rollbackFor  = Exception.class)
+	//@Transactional(rollbackFor  = Exception.class)
 	public ResponseEntity<?> update(@RequestBody @Valid User user){
-		return new ResponseEntity<>(userService.update(user), HttpStatus.CREATED);
+//		return new ResponseEntity<>(userService.update(user), HttpStatus.CREATED);
+		try{
+			return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
+		}catch(DataIntegrityViolationException e) {
+			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
