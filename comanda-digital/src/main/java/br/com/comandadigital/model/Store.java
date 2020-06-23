@@ -54,10 +54,10 @@ public class Store implements Serializable {
     @Size( min = 10, max = 15, message = StoreValidation.PHONE_VALIDATION_MESSAGE)
     private String phone;
 
-    @ApiModelProperty(value = "Endereço do estabelecimento")
-    @NotBlank(message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
-    @Size( max = 200, message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
-    private String address;
+//    @ApiModelProperty(value = "Endereço do estabelecimento")
+//    @NotBlank(message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
+//    @Size( max = 200, message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
+//    private String address;
 
     @ApiModelProperty(value = "Data do registro do estabelecimento")
     private Date registrationDate;
@@ -65,6 +65,10 @@ public class Store implements Serializable {
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "id_address")
+    private Address address;
 
     @JsonIgnore
     @OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)

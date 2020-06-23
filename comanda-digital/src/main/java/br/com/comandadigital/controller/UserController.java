@@ -69,7 +69,7 @@ public class UserController {
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
-//	@Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	@ApiOperation(value = "Salvar novo usuário", response = User.class)
 	public ResponseEntity<?> save(@RequestBody @Valid User user){
 		try{
