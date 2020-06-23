@@ -1,7 +1,9 @@
 package br.com.comandadigital.controller;
 
 import br.com.comandadigital.constants.log.TokenLog;
+import br.com.comandadigital.model.User;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TokenController {
 
     @DeleteMapping("/revoke")
+    @ApiOperation(value = "Deslogar usuário")
     public void revoke(HttpServletRequest req, HttpServletResponse resp){
         log.info(TokenLog.DELETE_COOKIE_LOGOUT);
 

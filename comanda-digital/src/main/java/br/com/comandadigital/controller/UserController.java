@@ -6,7 +6,9 @@ import javax.validation.Valid;
 
 import br.com.comandadigital.error.ErrorResponse;
 import br.com.comandadigital.error.RestExceptionHandler;
+import br.com.comandadigital.model.Store;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
@@ -44,34 +46,32 @@ public class UserController {
 	private String test() {
 		return "teste";
 	}
-	
+
 	@GetMapping("/users")
 	public List<User> list(){
 		return userService.listAll();
 	}
 	
-	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+/*	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
-	//@ApiOperation(value = "List all users", response = ResponseEntity.class)
-	public ResponseEntity<Iterable<User>> listAll(Pageable pageable){
+	@ApiOperation(value = "Listar todos os usuários com paginação", response = User[].class)
+	public ResponseEntity<List<User>> listAll(Pageable pageable){
 		return new ResponseEntity<>(userService.listAll(pageable), HttpStatus.OK);
-	}
-	
-	
+	}*/
+
 	@GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
-	//@ApiOperation(value = "List all users", response = ResponseEntity.class)
+	@ApiOperation(value = "Listar todos os usuários", response = User[].class)
 	public ResponseEntity<List<User>> listAll(){
-		return new ResponseEntity<List<User>>(userService.listAll(), HttpStatus.OK);
+		return new ResponseEntity<>(userService.listAll(), HttpStatus.OK);
 	}
 	
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
 //	@Transactional(rollbackFor = Exception.class)
-	//@ApiOperation(value = "Save object user", response = ResponseEntity.class)
+	@ApiOperation(value = "Salvar novo usuário", response = User.class)
 	public ResponseEntity<?> save(@RequestBody @Valid User user){
-//		return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
 		try{
 			return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
 		}catch(DataIntegrityViolationException e) {
@@ -85,8 +85,8 @@ public class UserController {
 	
 	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	//@Transactional(rollbackFor  = Exception.class)
+	@ApiOperation(value = "Alterar usuário", response = User.class)
 	public ResponseEntity<?> update(@RequestBody @Valid User user){
-//		return new ResponseEntity<>(userService.update(user), HttpStatus.CREATED);
 		try{
 			return new ResponseEntity<>(userService.update(user), HttpStatus.OK);
 		}catch(DataIntegrityViolationException e) {
@@ -96,12 +96,14 @@ public class UserController {
 	}
 	
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiOperation(value = "Pesquisar por nome do usuário", response = User[].class)
     @ResponseBody
     public ResponseEntity<?> findByNameLike(@PathVariable String name) {
         return new ResponseEntity<>(userRepository.findByNameLike(name), HttpStatus.OK);
     }
 
     @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiOperation(value = "Pesquisar por documento", response = User.class)
     @ResponseBody
     public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
         return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);

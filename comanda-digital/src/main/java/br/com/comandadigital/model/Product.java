@@ -2,6 +2,7 @@ package br.com.comandadigital.model;
 
 import br.com.comandadigital.constants.entity.ProductValidation;
 import br.com.comandadigital.constants.entity.StoreValidation;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,23 +27,28 @@ import java.math.BigDecimal;
 @Table(name = "tb_product")
 public class Product {
 
+    @ApiModelProperty(value = "Código do produto")
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idProduct;
 
+    @ApiModelProperty(value = "Nome do produto")
     @NotBlank( message = ProductValidation.NAME_VALIDATION_MESSAGE)
     @Size( min = 1, max = 100, message = StoreValidation.NAME_VALIDATION_MESSAGE)
     private String name;
 
+    @ApiModelProperty(value = "Descrição do produto")
     @NotBlank( message = ProductValidation.DESCRIPTION_VALIDATION_MESSAGE)
     @Size( min = 5, max = 200, message = StoreValidation.NAME_VALIDATION_MESSAGE)
     private String description;
 
-    @NotNull
+    @ApiModelProperty(value = "Valor do produto")
+    @NotNull(message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     @DecimalMin(value = "0.0", inclusive = false, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     @Digits(integer= 6, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     private BigDecimal value;
 
+    @ApiModelProperty(value = "Status do produto")
     private Integer status = 1;
 
     @ManyToOne( fetch = FetchType.EAGER)

@@ -11,6 +11,7 @@ import br.com.comandadigital.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -92,6 +93,10 @@ public class CardService {
 				return cardRepository.findByStore_idStoreAndEndDateIsNotNullOrderByBeginDateDesc(
 						vo.getIdStore());
 			}else{
+				Calendar c = Calendar.getInstance();
+				c.setTime(vo.getSecondDate());
+				c.add(Calendar.DATE, +1);
+				vo.setSecondDate(c.getTime());
 				return cardRepository.findByStore_idStoreAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
 					vo.getIdStore(), vo.getFirstDate(), vo.getSecondDate());
 			}

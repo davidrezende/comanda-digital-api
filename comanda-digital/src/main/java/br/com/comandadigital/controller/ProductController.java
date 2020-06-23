@@ -9,6 +9,7 @@ import br.com.comandadigital.repository.StoreRepository;
 import br.com.comandadigital.service.ProductService;
 import br.com.comandadigital.service.StoreService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class ProductController {
 	
 	@GetMapping(path = "/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
+	@ApiOperation(value = "Pesquisar produtos por ID do Estabelecimento", response = Product[].class)
 	@ResponseBody
 	public ResponseEntity<?> listByStore( @PathVariable Long idStore){
 		return new ResponseEntity<>(productService.listByStore(idStore), HttpStatus.OK);
@@ -43,6 +45,7 @@ public class ProductController {
 	
 	@GetMapping(path = "/find/name/{name}/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
+	@ApiOperation(value = "Procurar produtos por nome e ID do Estabelecimento", response = Product[].class)
 	@ResponseBody
 	public ResponseEntity<?> listByNameAndStore(@PathVariable String name, @PathVariable Long idStore){
 		return new ResponseEntity<>( productService.listByNameAndStore(name, idStore), HttpStatus.OK);
@@ -50,9 +53,9 @@ public class ProductController {
 	
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
+	@ApiOperation(value = "Salvar novo produto", response = Product.class)
 //	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> save(@RequestBody @Valid Product product){
-//		return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
 		try{
 			return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
 		}catch(DataIntegrityViolationException e) {
@@ -63,9 +66,9 @@ public class ProductController {
 
 	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
+	@ApiOperation(value = "Alterar produto", response = Product.class)
 	//@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> update(@RequestBody @Valid Product product){
-//		return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
 		try{
 			return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
 		}catch(DataIntegrityViolationException e) {
@@ -76,9 +79,9 @@ public class ProductController {
 
 	@PostMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
+	@ApiOperation(value = "Desabilitar produto", response = Product.class)
 //	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> disable(@RequestBody @Valid Product product) throws Exception {
-//		return new ResponseEntity<>(productService.disable(product), HttpStatus.OK);
 		try{
 			return new ResponseEntity<>(productService.disable(product), HttpStatus.OK);
 		}catch(DataIntegrityViolationException e) {
@@ -88,9 +91,9 @@ public class ProductController {
 	}
 
 	@PostMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiOperation(value = "Deletar produto", response = Product.class)
 //	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> delete(@RequestBody @Valid Product product){
-//		return new ResponseEntity<>(productService.delete(product), HttpStatus.OK);
 		try{
 			return new ResponseEntity<>(productService.delete(product), HttpStatus.OK);
 		}catch(DataIntegrityViolationException e) {

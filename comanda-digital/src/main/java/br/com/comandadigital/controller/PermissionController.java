@@ -3,12 +3,14 @@ package br.com.comandadigital.controller;
 import br.com.comandadigital.error.ErrorResponse;
 import br.com.comandadigital.error.RestExceptionHandler;
 import br.com.comandadigital.model.Permission;
+import br.com.comandadigital.model.ProductCard;
 import br.com.comandadigital.model.User;
 import br.com.comandadigital.repository.PermissionRepository;
 import br.com.comandadigital.repository.UserRepository;
 import br.com.comandadigital.service.PermissionService;
 import br.com.comandadigital.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,14 @@ import java.util.List;
 @RequestMapping("v1/permission")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Api(value = "Endpoints de Permissão")
+@Api(value = "Endpoints de roles")
 public class PermissionController {
 	
 	private final PermissionService permissionService;
 
 	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+	@ApiOperation(value = "Listar todas as roles", response = Permission[].class)
 	//@ApiOperation(value = "List all users", response = ResponseEntity.class)
 	public ResponseEntity<List<?>> listAll() {
 		return new ResponseEntity<List<?>>(permissionService.listAll(), HttpStatus.OK);

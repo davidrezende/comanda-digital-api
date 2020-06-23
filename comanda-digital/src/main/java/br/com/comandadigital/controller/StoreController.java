@@ -5,9 +5,11 @@ import br.com.comandadigital.error.ErrorObject;
 import br.com.comandadigital.error.ErrorResponse;
 import br.com.comandadigital.error.RestExceptionHandler;
 import br.com.comandadigital.model.Store;
+import br.com.comandadigital.model.User;
 import br.com.comandadigital.repository.StoreRepository;
 import br.com.comandadigital.service.StoreService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +35,14 @@ public class StoreController {
 
     @GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+    @ApiOperation(value = "Pesquisar todos os estabelecimentos", response = Store[].class)
     public ResponseEntity<List<Store>> listAll() {
         return new ResponseEntity<List<Store>>(storeService.list(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //@Transactional(rollbackFor = Exception.class)
+    @ApiOperation(value = "Salvar novo estabelecimento", response = Store.class)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
     public ResponseEntity<?> save(@RequestBody @Valid Store store) {
         try{
@@ -50,9 +54,9 @@ public class StoreController {
     }
 
     @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Alterar estabelecimento", response = Store.class)
     //@Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody @Valid Store store) {
-//        return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
         try{
             return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
         }catch(DataIntegrityViolationException e) {
@@ -63,6 +67,7 @@ public class StoreController {
 
     @GetMapping(path = "/find/name/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+    @ApiOperation(value = "Pesquisar por nome do estabelecimento", response = Store[].class)
     @ResponseBody
     public ResponseEntity<?> findByNameLike(@PathVariable String name) {
         return new ResponseEntity<>(storeRepository.findByNameLike(name), HttpStatus.OK);
@@ -70,6 +75,7 @@ public class StoreController {
 
     @GetMapping(path = "/find/cnpj/{cnpj}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+    @ApiOperation(value = "Pesquisar estabelecimento por documento", response = Store.class)
     @ResponseBody
     public ResponseEntity<?> findByCnpjLike(@PathVariable String cnpj) {
         return new ResponseEntity<>(storeRepository.findByCnpjLike(cnpj), HttpStatus.OK);

@@ -1,11 +1,12 @@
 package br.com.comandadigital.model.vo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Data
 @Getter
 @Setter
 @Builder

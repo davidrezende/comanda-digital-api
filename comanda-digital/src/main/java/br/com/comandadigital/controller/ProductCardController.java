@@ -3,7 +3,9 @@ package br.com.comandadigital.controller;
 import br.com.comandadigital.error.ErrorResponse;
 import br.com.comandadigital.error.RestExceptionHandler;
 import br.com.comandadigital.model.Card;
+import br.com.comandadigital.model.Product;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,7 @@ public class ProductCardController {
 
 	@GetMapping(path = "/find/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
+	@ApiOperation(value = "Procurar produtos na comanda por ID da Comanda", response = ProductCard[].class)
 	@ResponseBody
 	public ResponseEntity<?> listByCard(@PathVariable Long idCard){
 		return new ResponseEntity<>(productCardService.listByCard(idCard), HttpStatus.OK);
@@ -46,9 +49,9 @@ public class ProductCardController {
 
 	@PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+	@ApiOperation(value = "Adicionar produto na comanda", response = ProductCard.class)
 //	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
-//		return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
 		try{
 			return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
 		}catch(DataIntegrityViolationException e) {
@@ -59,9 +62,9 @@ public class ProductCardController {
 
 	@PostMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+	@ApiOperation(value = "Alterar produto na comanda", response = ProductCard.class)
 	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
-//		return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
 		try{
 			return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
 		}catch(DataIntegrityViolationException e) {
@@ -72,12 +75,14 @@ public class ProductCardController {
 
 	@GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
+	@ApiOperation(value = "Listar todos os produtos nas comandas abertas", response = ProductCard[].class)
 	public ResponseEntity<List<ProductCard>> listAllOpenCards() {
 		return new ResponseEntity<List<ProductCard>>(productCardService.listAllOpenCards(), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
+	@ApiOperation(value = "Listar todos os produtos nas comandas", response = ProductCard[].class)
 	public ResponseEntity<List<ProductCard>> listAll() {
 		return new ResponseEntity<List<ProductCard>>(productCardService.listAll(), HttpStatus.OK);
 	}

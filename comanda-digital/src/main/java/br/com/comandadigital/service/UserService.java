@@ -27,12 +27,12 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PermissionService permissionService;
 	
-	
+
 	public Iterable<User> listAll(Pageable pageable){
 		log.info(UserLog.LIST_LOG);
 		return userRepository.findAll(pageable);
 	}
-	
+
 	public List<User> listAll(){
 		log.info(UserLog.LIST_LOG);
 		return userRepository.findAll();
