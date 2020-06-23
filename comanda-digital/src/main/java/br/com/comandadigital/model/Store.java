@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -66,6 +67,7 @@ public class Store implements Serializable {
     @JoinColumn(name = "id_user")
     private User user;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "id_address")
     private Address address;
