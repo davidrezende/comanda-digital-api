@@ -30,7 +30,7 @@ public class Permission implements Serializable {
     private long idPermission;
 
     @ApiModelProperty(value = "Descrição da permissão")
-    @NotBlank
+    @NotBlank(message = "Descricao de permissão nao informada")
     @Column(nullable = false)
     private String description;
 

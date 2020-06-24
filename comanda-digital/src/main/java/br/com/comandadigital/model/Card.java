@@ -46,6 +46,7 @@ public class Card {
     private int amountPeople;
 
     @ApiModelProperty(value = "Data inicial da abertura da comanda")
+    @Column(nullable = false)
     private Date beginDate;
 
     @ApiModelProperty(value = "Data do fechamento da comanda")

@@ -28,12 +28,18 @@ public class UserService {
 	private final PermissionService permissionService;
 	
 
-	public Iterable<User> listAll(Pageable pageable){
+	public List<User> listAll(){
 		log.info(UserLog.LIST_LOG);
-		return userRepository.findAll(pageable);
+		return userRepository.findAll();
 	}
 
-	public List<User> listAll(){
+	public List<User> listAllUsersWithoutStoreAndPermissionUserStore() throws Exception {
+		log.info(UserLog.LIST_WITHOUT_STORE_AND_PERMISSION_ONLY_USERSTORE);
+		//Optional<List<Permission>> listPermissions = permissionService.findByRoleDescription(AcessRoles.ROLE_ACESS_USER_STORE);
+		return userRepository.findByUserPermissionsByRoleStoreAndWithoutStore(AcessRoles.ROLE_ACESS_USER_STORE);
+	}
+
+	public List<User> list(){
 		log.info(UserLog.LIST_LOG);
 		return userRepository.findAll();
 	}

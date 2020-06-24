@@ -22,7 +22,7 @@ public class StoreService {
 
 	public List<Store> list(){
 		log.info(StoreLog.LIST_LOG);
-		return storeRepository.findAll();
+		return storeRepository.findAllByOrderByRegistrationDateDesc();
 	}
 
 	public Optional<Store> findByUser(long idUser){
@@ -39,6 +39,15 @@ public class StoreService {
 	public Store update(Store store){
 		log.info(StoreLog.UPDATE_LOG);
 		return storeRepository.save(store);
+	}
+	//TODO:alterar para post pois a comparacao de nulo enviada pela url nao funciona
+	public List<Store> findByName(String name){
+		log.info(StoreLog.FIND_NAME_LOG);
+		if(name != null){
+			return storeRepository.findByNameContainingAllIgnoreCaseOrderByRegistrationDateDesc(name);
+		}else{
+			return storeRepository.findAllByOrderByRegistrationDateDesc();
+		}
 	}
 	
 }

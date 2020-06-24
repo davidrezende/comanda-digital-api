@@ -1,7 +1,6 @@
 package br.com.comandadigital.model;
 
 import br.com.comandadigital.constants.entity.ProductValidation;
-import br.com.comandadigital.constants.entity.StoreValidation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -34,12 +33,14 @@ public class Product {
 
     @ApiModelProperty(value = "Nome do produto")
     @NotBlank( message = ProductValidation.NAME_VALIDATION_MESSAGE)
-    @Size( min = 1, max = 100, message = StoreValidation.NAME_VALIDATION_MESSAGE)
+    @Size( min = 1, max = 100, message = ProductValidation.NAME_SIZE_VALIDATION_MESSAGE)
+    @Column(nullable = false)
     private String name;
 
     @ApiModelProperty(value = "Descrição do produto")
     @NotBlank( message = ProductValidation.DESCRIPTION_VALIDATION_MESSAGE)
-    @Size( min = 5, max = 200, message = StoreValidation.NAME_VALIDATION_MESSAGE)
+    @Size( min = 5, max = 200, message = ProductValidation.DESCRIPTION_SIZE_VALIDATION_MESSAGE)
+    @Column(nullable = false)
     private String description;
 
     @ApiModelProperty(value = "Valor do produto")

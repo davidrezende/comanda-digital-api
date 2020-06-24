@@ -70,14 +70,15 @@ public class StoreController {
     @ApiOperation(value = "Pesquisar por nome do estabelecimento", response = Store[].class)
     @ResponseBody
     public ResponseEntity<?> findByNameLike(@PathVariable String name) {
-        return new ResponseEntity<>(storeRepository.findByNameLike(name), HttpStatus.OK);
+//        return new ResponseEntity<>(storeRepository.findByNameContainingAllIgnoreCaseOrderByRegistrationDateDesc(name), HttpStatus.OK);
+        return new ResponseEntity<>(storeService.findByName(name), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/find/cnpj/{cnpj}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
-    @ApiOperation(value = "Pesquisar estabelecimento por documento", response = Store.class)
-    @ResponseBody
-    public ResponseEntity<?> findByCnpjLike(@PathVariable String cnpj) {
-        return new ResponseEntity<>(storeRepository.findByCnpjLike(cnpj), HttpStatus.OK);
-    }
+//    @GetMapping(path = "/find/cnpj/{cnpj}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+//    @ApiOperation(value = "Pesquisar estabelecimento por documento", response = Store.class)
+//    @ResponseBody
+//    public ResponseEntity<?> findByCnpjLike(@Valid String cnpj) {
+//        return new ResponseEntity<>(storeRepository.findByCnpjLike(cnpj), HttpStatus.OK);
+//    }
 }

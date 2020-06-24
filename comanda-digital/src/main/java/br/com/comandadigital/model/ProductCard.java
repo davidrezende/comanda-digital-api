@@ -49,7 +49,7 @@ public class ProductCard {
 	private Integer amountProduct;
 
     @ApiModelProperty(value = "Data de registro e de atualização do produto na comanda")
-	@Column(updatable = false)
+	@Column(updatable = false, nullable = false)
 	private Date  dateRegistration;
 
     @ApiModelProperty(value = "Valor unitário do produto no momento da inclusão na comanda")

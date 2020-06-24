@@ -42,15 +42,10 @@ public class UserController {
 	private final UserService  userService;
 	private final UserRepository userRepository;
 
-	@GetMapping("/testeapi")
-	private String test() {
-		return "teste";
-	}
-
-	@GetMapping("/users")
-	public List<User> list(){
-		return userService.listAll();
-	}
+//	@GetMapping("/users")
+//	public List<User> list(){
+//		return userService.listAll();
+//	}
 	
 /*	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
@@ -65,8 +60,14 @@ public class UserController {
 	public ResponseEntity<List<User>> listAll(){
 		return new ResponseEntity<>(userService.listAll(), HttpStatus.OK);
 	}
-	
-	
+
+	@GetMapping(path = "/listAllUsersWithoutStoreAndPermissionUserStore", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+	@ApiOperation(value = "Listar todos os usuários aptos a terem seu estabelecimento cadastrado", response = User[].class)
+	public ResponseEntity<List<User>> listAllUserByPermissionRoleUserStoreWithoutStore() throws Exception {
+		return new ResponseEntity<>(userService.listAllUsersWithoutStoreAndPermissionUserStore(), HttpStatus.OK);
+	}
+
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
 	//@Transactional(rollbackFor = Exception.class)
@@ -102,13 +103,13 @@ public class UserController {
         return new ResponseEntity<>(userRepository.findByNameLike(name), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ApiOperation(value = "Pesquisar por documento", response = User.class)
-    @ResponseBody
-    public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
-        return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
-    }
-	
+//    @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	@ApiOperation(value = "Pesquisar por documento", response = User.class)
+//    @ResponseBody
+//    public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
+//        return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
+//    }
+//
 	
 
 
