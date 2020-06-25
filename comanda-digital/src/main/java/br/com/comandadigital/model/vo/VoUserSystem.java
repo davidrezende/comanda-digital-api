@@ -17,6 +17,4 @@ public class VoUserSystem extends User {
         this.user = user;
     }
 
-
-
 }

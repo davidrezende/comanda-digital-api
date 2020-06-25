@@ -18,7 +18,10 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.comandadigital.constants.entity.CardValidation;
 import br.com.comandadigital.constants.entity.ProductValidation;
+import br.com.comandadigital.constants.entity.UserValidation;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,24 +41,30 @@ import lombok.ToString;
 @Table(name = "tb_product_card")
 public class ProductCard {
 
+    @ApiModelProperty(value = "Código de Produto Comanda")
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long idProductCard;
-	
+
+    @ApiModelProperty(value = "Quantidade do produto na comanda")
 	@NotNull( message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
 	private Integer amountProduct;
-	
-	@Column(updatable = false)
+
+    @ApiModelProperty(value = "Data de registro e de atualização do produto na comanda")
+	@Column(updatable = false, nullable = false)
 	private Date  dateRegistration;
-	
+
+    @ApiModelProperty(value = "Valor unitário do produto no momento da inclusão na comanda")
+    @DecimalMin(value = "0.0", inclusive = false, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
+    @Digits(integer= 3, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
+    private BigDecimal value;
+
+    @NotNull(message = ProductValidation.PRODUCT_VALIDATION_MESSAGE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product")
     private Product product;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
-    @Digits(integer= 3, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
-    private BigDecimal value;
-    
+    @NotNull(message = CardValidation.CARD_VALIDATION_MESSAGE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_card")
     private Card card;

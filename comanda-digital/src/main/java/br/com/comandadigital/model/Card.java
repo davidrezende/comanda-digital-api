@@ -8,6 +8,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.comandadigital.constants.entity.CardValidation;
+import br.com.comandadigital.constants.entity.StoreValidation;
+import br.com.comandadigital.constants.entity.UserValidation;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,26 +32,34 @@ import lombok.ToString;
 @Table(name = "tb_card")
 public class Card {
 
+    @ApiModelProperty(value = "Código da comanda")
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idCard;
-	
+
+    @ApiModelProperty(value = "Número da mesa")
 	@NotNull(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
 	//@Size(min = 1, max = 3, message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
     private int tableNumber;
-	
+
+    @ApiModelProperty(value = "Quantidade de pessoas por comanda")
 	@NotNull(message = CardValidation.TABLE_NUMBER_VALIDATION_MESSAGE)
 	//@Size(min = 1, max = 3, message = CardValidation.AMOUNT_PEOPLE_VALIDATION_MESSAGE)
     private int amountPeople;
 
+    @ApiModelProperty(value = "Data inicial da abertura da comanda")
+    @Column(nullable = false)
     private Date beginDate;
 
+    @ApiModelProperty(value = "Data do fechamento da comanda")
     private Date endDate;
 
+    @NotNull(message = StoreValidation.STORE_VALIDATION_MESSAGE)
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_store")
     private Store store;
 
+    @NotNull(message = UserValidation.USER_VALIDATION_MESSAGE)
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;

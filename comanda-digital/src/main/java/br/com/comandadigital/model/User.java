@@ -12,10 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.comandadigital.constants.entity.UserValidation;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +26,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.Value;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Data
 @Getter
@@ -43,32 +46,41 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = 2966895294948892097L;
 
+    @ApiModelProperty(value = "Código do usuário")
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUser;
 
+    @ApiModelProperty(value = "Nome do usuário")
     @NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)
     @Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
+    @Column(nullable = false)
     private String name;
 
-    //@NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)
-    //@Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
-    @Column(unique = true)
-    private String email; //TODO: realizar validacao de email
-
+    @ApiModelProperty(value = "Email do usuário")
+    @NotBlank(message = UserValidation.EMAIL_VALIDATION_MESSAGE)
+    @Size(max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
     @ToString.Exclude
-    //@CPF(message = UserValidation.CPF_VALIDATION_MESSAGE)
-    @Column(unique = true)
+    @Email( message = UserValidation.EMAIL_SIZE_VALIDATION_MESSAGE)
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @ApiModelProperty(value = "Número do documento CPF do usuário")
+    @ToString.Exclude
+    @CPF(message = UserValidation.CPF_VALIDATION_MESSAGE)
+    @Column(unique = true, nullable = false, length = 14)
     private String cpf;
 
+    @ApiModelProperty(value = "Senha do usuário")
     @ToString.Exclude
     @NotBlank(message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
     @Size( min = 8, max = 255, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
+    @Column(nullable = false)
     private String password;
 
-   
+    @ApiModelProperty(value = "Data de registro do usuário")
     @Temporal(value = TemporalType.TIMESTAMP)
-    @Column(updatable = false)
+    @Column(updatable = false, nullable = false)
     private Date dtRegistration;
 
     @JsonIgnore
@@ -77,9 +89,11 @@ public class User implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user" ,cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @Column(nullable = false)
     private List<Card> cards;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Column(nullable = false)
     @JoinTable(
             name = "tb_user_permission",
             joinColumns = @JoinColumn(name = "id_user"),
