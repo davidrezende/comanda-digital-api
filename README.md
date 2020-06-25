@@ -1,6 +1,8 @@
 # Comanda Digital API
 
-Trabalho de Conclusão de Curso - UNICEUB
+Trabalho de Conclusão de Curso - UNICEUB  06/2020
+
+
 
 ***Comando a ser executado junto ao Maven para construir o .jar
 
@@ -8,7 +10,8 @@ Trabalho de Conclusão de Curso - UNICEUB
 
 ## Índice
 * Objetivo
-* Documentação
+* Modelagem
+* Documentação da API
 * Tecnologia
 * Segurança
 * Deploy
@@ -17,7 +20,7 @@ Trabalho de Conclusão de Curso - UNICEUB
 
 ## [+] Objetivo
 
-
+O objetivo com a Comanda Digital API é fornecer endpoints para manipular as principais entidades que estão envolvidas no fluxo trandicional de uma comanda em bares e restaurantes.
 
 ## [+] Documentação
 
@@ -36,6 +39,8 @@ Trabalho de Conclusão de Curso - UNICEUB
 
 ## Deploy
 
+Como solução para hospedar a aplicação na Internet. Hospedamos a API na plataforma Digital Ocean.precisamos hospedar em uma plataforma 
 
+![png](img/digitalocean.png)
 ## Conclusão
 
