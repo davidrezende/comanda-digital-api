@@ -14,10 +14,10 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>{
 
 	@Query(
 			value = "select u.* from tb_user u, tb_user_permission up, tb_permission p \n" +
-					"where p.description = :role \n" +
+					"where p.description = ? \n" +
 					"and p.id_permission = up.id_permission \n" +
 					"and u.id_user = up.id_user \n" +
-					"and not exists ( select * from tb_store, tb_user where tb_store.id_user = tb_user.id_user )",
+					"and not exists ( select * from tb_store where tb_store.id_user = u.id_user ) ",
 			nativeQuery = true)
 	List<User> findByUserPermissionsByRoleStoreAndWithoutStore(@Param("role") String role);
 	

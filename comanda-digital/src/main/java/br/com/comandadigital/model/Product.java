@@ -1,6 +1,7 @@
 package br.com.comandadigital.model;
 
 import br.com.comandadigital.constants.entity.ProductValidation;
+import br.com.comandadigital.constants.entity.StoreValidation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -52,6 +53,7 @@ public class Product {
     @ApiModelProperty(value = "Status do produto")
     private Integer status = 1;
 
+    @NotNull(message= StoreValidation.STORE_VALIDATION_MESSAGE)
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_store")
     private Store store;

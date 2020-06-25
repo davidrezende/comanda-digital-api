@@ -2,6 +2,7 @@ package br.com.comandadigital.constants.entity;
 
 public final class StoreValidation {
 
+    public static final String STORE_VALIDATION_MESSAGE               =       "Estabelecimento invalido";
     public static final String CNPJ_VALIDATION_MESSAGE                =       "CNPJ invalido";
     public static final String NAME_VALIDATION_MESSAGE                =       "Nome do estabelecimento invalido";
     public static final String NAME_SIZE_VALIDATION_MESSAGE           =       "Tamanho incorreto para o campo Nome do Estabelecimento";

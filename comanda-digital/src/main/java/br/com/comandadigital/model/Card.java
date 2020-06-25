@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.comandadigital.constants.entity.CardValidation;
+import br.com.comandadigital.constants.entity.StoreValidation;
+import br.com.comandadigital.constants.entity.UserValidation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -52,10 +54,12 @@ public class Card {
     @ApiModelProperty(value = "Data do fechamento da comanda")
     private Date endDate;
 
+    @NotNull(message = StoreValidation.STORE_VALIDATION_MESSAGE)
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_store")
     private Store store;
 
+    @NotNull(message = UserValidation.USER_VALIDATION_MESSAGE)
     @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     private User user;

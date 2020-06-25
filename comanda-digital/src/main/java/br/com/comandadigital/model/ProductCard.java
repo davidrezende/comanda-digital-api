@@ -18,7 +18,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.comandadigital.constants.entity.CardValidation;
 import br.com.comandadigital.constants.entity.ProductValidation;
+import br.com.comandadigital.constants.entity.UserValidation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,10 +59,12 @@ public class ProductCard {
     @Digits(integer= 3, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     private BigDecimal value;
 
+    @NotNull(message = ProductValidation.PRODUCT_VALIDATION_MESSAGE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_product")
     private Product product;
 
+    @NotNull(message = CardValidation.CARD_VALIDATION_MESSAGE)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_card")
     private Card card;
