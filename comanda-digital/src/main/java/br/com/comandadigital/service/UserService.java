@@ -46,6 +46,7 @@ public class UserService {
 
 	public User save(User user) throws Exception {
 		log.info(UserLog.SAVE_LOG);
+
 		PasswordGenerator passwordGenerator = new PasswordGenerator();
 		user.setDtRegistration(new Date());
 		user.setPassword(passwordGenerator.encryptPassword(user.getPassword()));

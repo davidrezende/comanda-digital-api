@@ -103,13 +103,13 @@ public class UserController {
         return new ResponseEntity<>(userRepository.findByNameLike(name), HttpStatus.OK);
     }
 
-//    @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	@ApiOperation(value = "Pesquisar por documento", response = User.class)
-//    @ResponseBody
-//    public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
-//        return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
-//    }
-//
+    @GetMapping(path = "/find/cpf/{cpf}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiOperation(value = "Pesquisar por documento", response = User.class)
+    @ResponseBody
+    public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
+        return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
+    }
+
 	
 
 

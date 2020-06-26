@@ -13,10 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 import br.com.comandadigital.constants.entity.CardValidation;
 import br.com.comandadigital.constants.entity.ProductValidation;
@@ -48,6 +45,7 @@ public class ProductCard {
 
     @ApiModelProperty(value = "Quantidade do produto na comanda")
 	@NotNull( message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
+    @Min(value = 1, message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
 	private Integer amountProduct;
 
     @ApiModelProperty(value = "Data de registro e de atualização do produto na comanda")
