@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,10 +38,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     public static ErrorResponse getConstraintErrors(DataIntegrityViolationException ex) {
-        return new ErrorResponse(ValidateConstants.VALIDATE_CONSTRAINT_ERROR, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),ex.getRootCause().getMessage(), null);
+        List<ErrorObject> listError = new ArrayList<>();
+        listError.add(new ErrorObject(ValidateConstants.VALIDATE_CONSTRAINT_ERROR, null, null));
+        return new ErrorResponse(ValidateConstants.VALIDATE_CONSTRAINT_ERROR, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),ex.getRootCause().getMessage(), listError);
     }
 
     public static ErrorResponse getExceptionsErrors(Exception ex) {
-        return new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),null, null);
+        List<ErrorObject> listError = new ArrayList<>();
+        listError.add(new ErrorObject(ex.getMessage(), null, null));
+        return new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),null, listError);
     }
 }

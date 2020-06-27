@@ -1,5 +1,6 @@
 package br.com.comandadigital.model;
 
+import br.com.comandadigital.constants.entity.ProductTypeValidation;
 import br.com.comandadigital.constants.entity.ProductValidation;
 import br.com.comandadigital.constants.entity.StoreValidation;
 import io.swagger.annotations.ApiModelProperty;
@@ -52,6 +53,11 @@ public class Product {
 
     @ApiModelProperty(value = "Status do produto")
     private Integer status = 1;
+
+    @NotNull(message = ProductTypeValidation.PRODUCT_TYPE_VALIDATION_MESSAGE)
+    @ManyToOne( fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_type")
+    private ProductType type;
 
     @NotNull(message= StoreValidation.STORE_VALIDATION_MESSAGE)
     @ManyToOne( fetch = FetchType.EAGER)

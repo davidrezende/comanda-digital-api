@@ -58,11 +58,6 @@ public class Store implements Serializable {
     @Column(nullable = false)
     private String phone;
 
-//    @ApiModelProperty(value = "Endereço do estabelecimento")
-//    @NotBlank(message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
-//    @Size( max = 200, message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
-//    private String address;
-
     @ApiModelProperty(value = "Data do registro do estabelecimento")
     @Column(nullable = false)
     private Date registrationDate;

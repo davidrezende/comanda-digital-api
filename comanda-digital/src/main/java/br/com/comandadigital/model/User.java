@@ -74,7 +74,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "Senha do usuário")
     @ToString.Exclude
     @NotBlank(message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
-    @Size( min = 8, max = 255, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
+    @Size( min = 4, max = 255, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
     @Column(nullable = false)
     private String password;
 
