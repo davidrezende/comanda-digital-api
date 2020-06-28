@@ -58,6 +58,9 @@ public class Store implements Serializable {
     @Column(nullable = false)
     private String phone;
 
+    @ApiModelProperty(value = "Status do estabelecimento")
+    private Integer status = 1;
+
     @ApiModelProperty(value = "Data do registro do estabelecimento")
     @Column(nullable = false)
     private Date registrationDate;

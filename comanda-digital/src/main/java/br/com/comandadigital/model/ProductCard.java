@@ -17,6 +17,7 @@ import javax.validation.constraints.*;
 
 import br.com.comandadigital.constants.entity.CardValidation;
 import br.com.comandadigital.constants.entity.ProductValidation;
+import br.com.comandadigital.constants.entity.StoreValidation;
 import br.com.comandadigital.constants.entity.UserValidation;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -45,17 +46,28 @@ public class ProductCard {
 
     @ApiModelProperty(value = "Quantidade do produto na comanda")
 	@NotNull( message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
-    @Min(value = 1, message = ProductValidation.AMOUNT_VALIDATION_MESSAGE)
+    @Column(length = 3)
 	private Integer amountProduct;
 
     @ApiModelProperty(value = "Data de registro e de atualização do produto na comanda")
-	@Column(updatable = false, nullable = false)
-	private Date  dateRegistration;
+    @Column(updatable = false, nullable = false)
+    private Date  dateRegistration;
+
+    @ApiModelProperty(value = "Data de alterações realizadas do produto adicionado na comanda")
+    @Column(nullable = true)
+    private Date  dateChange;
 
     @ApiModelProperty(value = "Valor unitário do produto no momento da inclusão na comanda")
     @DecimalMin(value = "0.0", inclusive = false, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     @Digits(integer= 3, fraction=2, message = ProductValidation.VALUE_VALIDATION_MESSAGE)
     private BigDecimal value;
+
+    @ApiModelProperty(value = "Status do produto pedido")
+    private Integer status = 1;
+
+    @ApiModelProperty(value = "Observações do produto solicitado")
+    @Size(max = 120, message = StoreValidation.OBS_SIZE_VALIDATION_MESSAGE)
+    private String note;
 
     @NotNull(message = ProductValidation.PRODUCT_VALIDATION_MESSAGE)
     @ManyToOne(fetch = FetchType.EAGER)

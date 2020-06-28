@@ -49,7 +49,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "Código do usuário")
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long idUser;
+    private Long idUser;
 
     @ApiModelProperty(value = "Nome do usuário")
     @NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)

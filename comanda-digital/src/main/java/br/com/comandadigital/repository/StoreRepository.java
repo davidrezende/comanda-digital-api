@@ -13,4 +13,6 @@ public interface StoreRepository extends PagingAndSortingRepository<Store, Long>
     List<Store> findAll();
     Optional<Store> findFirstByUser_IdUser(long idUser);
     List<Store> findAllByOrderByRegistrationDateDesc();
+    Store findByIdStore(Long idStore);
+
 }
