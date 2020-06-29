@@ -71,13 +71,13 @@ public class Store implements Serializable {
     private User user;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_address")
     private Address address;
 
-    @JsonIgnore
-    @OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+/*    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_store")
-    private List<Card> cards;
+    private List<Card> cards;*/
 
 }

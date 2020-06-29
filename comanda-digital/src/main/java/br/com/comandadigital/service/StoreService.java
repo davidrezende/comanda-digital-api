@@ -73,19 +73,12 @@ public class StoreService {
 	public Store disable(Store store) throws Exception {
 		log.info(StoreLog.DISABLE_LOG);
 
-		User userStore = store.getUser();
-		List<Permission> listPermissionUserStore = new ArrayList<>();
-		//listPermissionUserStore = permissinRepository.findByDescription(AcessRoles.ROLE_ACESS_USER);
-		//TODO:continuar
-	//	userRepository.save(userStore)
-//
-//		if (!found) {
-//			throw new Exception("Loja não existente");
-//		}
-
-
-
-
+		Optional<List<Permission>> listPermissionUserStore = permissinRepository.findByDescription(AcessRoles.ROLE_ACESS_USER);
+		if(listPermissionUserStore.isPresent()){
+			store.getUser().setUserPermissions(listPermissionUserStore.get());
+		}else{
+			throw new Exception("Permissão "+ AcessRoles.ROLE_ACESS_USER + " não encontrada");
+		}
 
 		store.setStatus(DISABLE);
 		return storeRepository.save(store);
@@ -93,6 +86,14 @@ public class StoreService {
 
 	public Store enable(Store store) throws Exception {
 		log.info(StoreLog.ENABLE_DISABLE_LOG);
+
+		Optional<List<Permission>> listPermissionUserStore = permissinRepository.findByDescription(AcessRoles.ROLE_ACESS_USER_STORE);
+		if(listPermissionUserStore.isPresent()){
+			store.getUser().setUserPermissions(listPermissionUserStore.get());
+		}else{
+			throw new Exception("Permissão "+ AcessRoles.ROLE_ACESS_USER_STORE + " não encontrada");
+		}
+
 		store.setStatus(ENABLE);
 		return storeRepository.save(store);
 	}

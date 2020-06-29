@@ -57,6 +57,12 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String name;
 
+//    @ApiModelProperty(value = "Sobrenome do usuário")
+//    @NotBlank(message = UserValidation.SURNAME_VALIDATION_MESSAGE)
+//    @Size( min = 5, max = 100, message = UserValidation.SURNAME_VALIDATION_MESSAGE)
+//    @Column(nullable = false)
+//    private String surname;
+
     @ApiModelProperty(value = "Email do usuário")
     @NotBlank(message = UserValidation.EMAIL_VALIDATION_MESSAGE)
     @Size(max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
