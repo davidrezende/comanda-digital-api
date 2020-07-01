@@ -23,34 +23,35 @@ import javax.validation.Valid;
 @RequestMapping("v1/report")
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@Api(value = "Endpoints de Relatório")
+@Api(value = "Endpoints de Relatório Personalizados")
 public class ReportController {
     @Autowired
     private final ReportService reportService;
 
-    @PostMapping(path = "/reportTopSalesFoodByStoreAndDate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/reportTopSalesByStore", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('read')")
-    @ApiOperation(value = "Relatório de comidas mais vendidas por estabelecimento e intervalo de data", response = User.class)
+    @ApiOperation(value = "Relatório de comidas ou bebidas mais vendidas por estabelecimento e/ou intervalo de data", response = User.class)
     public ResponseEntity<?> reportTopSalesFoodByStoreAndDate(@RequestBody @Valid VoReportTopSellingProductDate voReport) {
         try {
-            return new ResponseEntity<>(reportService.getReportTopSellingFoodList(voReport), HttpStatus.CREATED);
+            return new ResponseEntity<>(reportService.getReportTopSellingList(voReport), HttpStatus.OK);
         } catch (Exception e) {
             ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PostMapping(path = "/reportTopSalesDrinkByStoreAndDate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+    @GetMapping(path = "/reportBasicInfo/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('read')")
-    @ApiOperation(value = "Relatório de bebidas mais vendidas por estabelecimento e intervalo de data", response = User.class)
-    public ResponseEntity<?> reportTopSalesDrinkByStoreAndDate(@RequestBody @Valid VoReportTopSellingProductDate voReport) {
+    @ApiOperation(value = "Relatório das informações básicas por estabelecimento", response = User.class)
+    @ResponseBody
+    public ResponseEntity<?> reportBasicInfo(@PathVariable Long idStore) {
         try {
-            return new ResponseEntity<>(reportService.getReportTopSellingDrinkList(voReport), HttpStatus.CREATED);
+            return new ResponseEntity<>(reportService.getReportBasicInfo(idStore), HttpStatus.OK);
         } catch (Exception e) {
             ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
-
 
 }

@@ -15,4 +15,6 @@ public class VoReportTopSellingProductDate {
     private long idStore;
     private Date firstDate;
     private Date secondDate;
+    private Integer qtReg;
+    private Integer type;
 }

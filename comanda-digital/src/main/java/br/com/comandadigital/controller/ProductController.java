@@ -32,7 +32,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api(value = "Endpoints de Produto")
 public class ProductController {
-    private final ProductRepository productRepository;
 	private final ProductService productService;
 	
 	@GetMapping(path = "/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -55,7 +55,6 @@ public class CardService {
 		return cardRepository.findByStore_idStoreAndEndDateIsNull(idStore);
 	}
 
-
 	public Card findByIdStoreAndIdCard (long idStore, long idCard){
 		log.info(CardLog.FIND_STOREID_CARDID_LOG);
 		return cardRepository.findByStore_idStoreAndIdCard(idStore, idCard);

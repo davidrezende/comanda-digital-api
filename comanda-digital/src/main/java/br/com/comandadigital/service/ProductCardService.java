@@ -22,21 +22,27 @@ public class ProductCardService {
     private static final String PRODUCT_TYPE_FOOD = "COMIDA";
     private static final Integer PRODUCT_CARD_DONE = 3;
     private static final Integer PRODUCT_CARD_DOING = 2;
+    private static final Integer PRODUCT_CARD_OPEN = 1;
 
     public ProductCard save(ProductCard productCard) throws Exception {
         log.info(ProductCardLog.SAVE_LOG);
         if (productCard.getAmountProduct() < 1) {
             throw new Exception("Quantidade do produto invalida");
         }
+
         Optional<Product> foundProduct = Optional.ofNullable(productRepository.findByIdProduct(productCard.getProduct().getIdProduct()));
         boolean foundProductStatus = foundProduct.isPresent();
+
         if (!foundProductStatus) {
             throw new Exception("Produto inexistente para adicionar a comanda!");
         }
+
 		List<Integer> statusKitchen = new ArrayList<Integer>();
 		statusKitchen.add(PRODUCT_CARD_DONE);
 		statusKitchen.add(PRODUCT_CARD_DOING);
+
         Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByCard_IdCardAndProduct_IdProductAndStatusNotIn(productCard.getCard().getIdCard(), productCard.getProduct().getIdProduct(), statusKitchen));
+
         boolean foundProductCardStatus = foundProductCard.isPresent();
         if (foundProductCardStatus) {
             foundProductCard.get().setAmountProduct(productCard.getAmountProduct() + foundProductCard.get().getAmountProduct());
@@ -103,12 +109,28 @@ public class ProductCardService {
         if (!foundProductStatus) {
             throw new Exception("Pedido nao existente ou ja concluido");
         } else {
-            if (foundProductCard.get().getStatus() == 1) {
+            if (foundProductCard.get().getStatus() == PRODUCT_CARD_OPEN) {
                 foundProductCard.get().setStatus(PRODUCT_CARD_DOING);
-            } else if (foundProductCard.get().getStatus() == 2) {
+            } else if (foundProductCard.get().getStatus() == PRODUCT_CARD_DOING) {
                 foundProductCard.get().setStatus(PRODUCT_CARD_DONE);
             } else {
                 throw new Exception("Pedido ja concluido");
+            }
+        }
+        return productCardRepository.save(foundProductCard.get());
+    }
+
+    public ProductCard updateStatusRollBack(ProductCard productCard) throws Exception {
+        log.info(ProductCardLog.UPDATE_STATUS_ROLLBACK_LOG);
+        Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByIdProductCardAndStatus(productCard.getIdProductCard(), productCard.getStatus()));
+        boolean foundProductStatus = foundProductCard.isPresent();
+        if (!foundProductStatus) {
+            throw new Exception("Pedido nao existente ou ja concluido");
+        } else {
+            if (foundProductCard.get().getStatus() == PRODUCT_CARD_DOING) {
+                foundProductCard.get().setStatus(PRODUCT_CARD_OPEN);
+            }else {
+                throw new Exception("Pedido ja esta aberto ou finalizado");
             }
         }
         return productCardRepository.save(foundProductCard.get());

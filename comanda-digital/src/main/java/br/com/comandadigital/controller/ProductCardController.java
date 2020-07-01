@@ -76,7 +76,7 @@ public class ProductCardController {
 
     @PostMapping(path = "/update/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
-    @ApiOperation(value = "Alterar status do preparo do produto na comanda", response = ProductCard.class)
+    @ApiOperation(value = "Alterar status do preparo do produto na comanda para fazendo e concluído", response = ProductCard.class)
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateStatusProductCard(@RequestBody @Valid ProductCard productCard) throws Exception {
         try {
@@ -90,6 +90,21 @@ public class ProductCardController {
         }
     }
 
+    @PostMapping(path = "/update/status/rollBack", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Alterar status do preparo do produto na comanda para aberto", response = ProductCard.class)
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> updateStatusProductCardRollBack(@RequestBody @Valid ProductCard productCard) throws Exception {
+        try {
+            return new ResponseEntity<>(productCardService.updateStatusRollBack(productCard), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
