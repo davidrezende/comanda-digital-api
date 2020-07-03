@@ -22,7 +22,7 @@ O objetivo com a Comanda Digital API é fornecer endpoints para manipular as pri
 
 ## [+] Documentação
 
-[Versão Online SWAGGER Doc - Comanda Digital](http://142.93.114.227:8090/swagger-ui.html#/)
+[Versão Online SWAGGER Doc - Comanda Digital](http://www.comandadigital.tk:8090/swagger-ui.html#/)
 
 ![png](img/swagger.png)
 
@@ -31,5 +31,5 @@ O objetivo com a Comanda Digital API é fornecer endpoints para manipular as pri
 
 Como solução para hospedar a aplicação na Internet. Hospedamos a API na plataforma Digital Ocean
 
-![png](img/digitalocean.png)
+![png](img/digitalocean_1.png)
 
