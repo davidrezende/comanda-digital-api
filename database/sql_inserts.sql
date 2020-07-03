@@ -1,8 +1,8 @@
 
 -- USUÁRIOS PADRÃO
-INSERT INTO comandadigitaldb.tb_user (cpf, dt_registration, email, name, password) VALUES ('776.724.310-99', '2020-01-01 00:00:00', 'adm@gmail.com', 'ADM', '$2a$10$krOpwrcrg3NZXvGOfSyj/u9nwNlB3sUjW8Mr23VWg9vsl9rueBv46');
+INSERT INTO comandadigitaldb.tb_user (cpf, dt_registration, email, name, password) VALUES ('776.724.310-99', '2020-01-01 00:00:00', 'adm@gmail.com', 'ADMIN', '$2a$10$krOpwrcrg3NZXvGOfSyj/u9nwNlB3sUjW8Mr23VWg9vsl9rueBv46');
 
-INSERT INTO comandadigitaldb.tb_user (cpf, dt_registration, email, name, password) VALUES ('164.533.720-02', '2020-01-01 00:00:00', 'loja@gmail.com', 'LOJA', '$2a$10$krOpwrcrg3NZXvGOfSyj/u9nwNlB3sUjW8Mr23VWg9vsl9rueBv46');
+INSERT INTO comandadigitaldb.tb_user (cpf, dt_registration, email, name, password) VALUES ('164.533.720-02', '2020-01-01 00:00:00', 'loja@gmail.com', 'DONO ESTABELECIMENTO', '$2a$10$krOpwrcrg3NZXvGOfSyj/u9nwNlB3sUjW8Mr23VWg9vsl9rueBv46');
 
 INSERT INTO comandadigitaldb.tb_user (cpf, dt_registration, email, name, password) VALUES ('054.794.351-24', '2020-01-01 00:00:00', 'cliente@gmail.com', 'CLIENTE', '$2a$10$krOpwrcrg3NZXvGOfSyj/u9nwNlB3sUjW8Mr23VWg9vsl9rueBv46');
 
@@ -40,7 +40,7 @@ VALUES
 -- LOJA
 INSERT INTO comandadigitaldb.tb_store(cnpj, name, phone, registration_date, status, id_address, id_user)
 VALUES
-('97.930.661/0001-58', 'Loja 1', '61982263998', '2020-01-01 00:00:00', 1, 1, 2);
+('97.930.661/0001-58', 'LOJA DE TESTE', '61982263998', '2020-01-01 00:00:00', 1, 1, 2);
 
 -- TIPOS DE PRODUTO
 INSERT INTO  comandadigitaldb.tb_product_type (DESCRIPTION)
