@@ -15,7 +15,9 @@ Trabalho de Conclusão de Curso - UNICEUB  06/2020
 Usuários para demonstração em produção:
 
 Administrador: ```usuario: adm@gmail.com; senha: admin```
+
 Estabelecimento: ```usuario: loja@gmail.com; senha: admin```
+
 Cliente: ```usuario: cliente@gmail.com; senha: admin```
 
 [SQL PARA GERAÇÃO DO BANCO DE DADOS](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_tables.sql)
