@@ -28,19 +28,9 @@ O objetivo com a Comanda Digital API é fornecer endpoints para manipular as pri
 
 ![png](img/swagger.png)
 
-
-## Tecnologia
-
-
-
-
-## Segurança
-
-
 ## Deploy
 
-Como solução para hospedar a aplicação na Internet. Hospedamos a API na plataforma Digital Ocean.precisamos hospedar em uma plataforma 
+Como solução para hospedar a aplicação na Internet. Hospedamos a API na plataforma Digital Ocean
 
-![png](img/digitalocean_.png)
-## Conclusão
+![png](img/digitalocean.png)
 
