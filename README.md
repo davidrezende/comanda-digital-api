@@ -10,7 +10,7 @@ Trabalho de Conclusão de Curso - UNICEUB  06/2020
 
 ```java -jar /home/api/comanda-digital.jar --spring.datasource.username=USERNAME --spring.datasource.password=PASSWORD  --comanda.origin-permitida=http://www.comandadigital.tk --server.port=8090```
 
-## [+] Banco de dados
+## [+] Scripts - BANCO DE DADOS
 
 [SQL PARA GERAÇÃO DO BANCO DE DADOS](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_tables.sql)
 
