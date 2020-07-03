@@ -8,15 +8,6 @@ Trabalho de Conclusão de Curso - UNICEUB  06/2020
 
 ```mvn clean package```
 
-## Índice
-* Objetivo
-* Modelagem
-* Documentação da API
-* Tecnologia
-* Segurança
-* Deploy
-* Conclusão
-
 
 ## [+] Objetivo
 
