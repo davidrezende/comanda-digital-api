@@ -10,6 +10,10 @@ Trabalho de Conclusão de Curso - UNICEUB  06/2020
 
 ```java -jar /home/api/comanda-digital.jar --spring.datasource.username=USERNAME --spring.datasource.password=PASSWORD  --comanda.origin-permitida=http://www.comandadigital.tk --server.port=8090```
 
+## [+] Objetivo
+
+O objetivo com a Comanda Digital API é fornecer endpoints para manipular as principais entidades que estão envolvidas no fluxo trandicional de uma comanda em bares e restaurantes.
+
 ## [+] Scripts - BANCO DE DADOS
 
 Usuários para demonstração em produção:
@@ -23,10 +27,6 @@ Cliente: ```usuario: cliente@gmail.com; senha: admin```
 [SQL PARA GERAÇÃO DO BANCO DE DADOS](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_tables.sql)
 
 [SQL PARA MASSA DE TESTE](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_tables.sql)
-
-## [+] Objetivo
-
-O objetivo com a Comanda Digital API é fornecer endpoints para manipular as principais entidades que estão envolvidas no fluxo trandicional de uma comanda em bares e restaurantes.
 
 ## [+] Documentação
 
