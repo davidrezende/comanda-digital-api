@@ -53,14 +53,32 @@ public class StoreController {
         }
     }
 
-    @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Alterar estabelecimento", response = Store.class)
-    //@Transactional(rollbackFor = Exception.class)
+    @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody @Valid Store store) {
-        try{
+//        try{
             return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
+//        }catch(DataIntegrityViolationException e) {
+//            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+//            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+//        }
+    }
+
+
+    @PutMapping(path = "/enable/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Ativar ou desativar estabelecimento", response = Store.class)
+    @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> enableDisable(@RequestBody @Valid Store store) throws Exception {
+        try{
+            return new ResponseEntity<>(storeService.enableDisable(store), HttpStatus.OK);
         }catch(DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }

@@ -19,12 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
 
 	private final ProductRepository productRepository;
-	private final int ACTIVE = 1;
+	private final int ENABLE = 1;
 	private final int DISABLE = 2;
 
 	public List<Product> listByStore(long IdStore){
 		log.info(ProductLog.LIST_LOG);
-		return productRepository.findByStatusAndStore_idStore(ACTIVE, IdStore);
+		return productRepository.findByStatusAndStore_idStore(ENABLE, IdStore);
+	}
+
+	public List<Product> listMenuByStore(long IdStore){
+		log.info(ProductLog.LIST_MENU_LOG);
+		return productRepository.findByStatusAndStore_idStoreOrderByTypeAsc(ENABLE, IdStore);
 	}
 
 	public List<Product> listByNameAndStore(String name,long idStore){
@@ -49,7 +54,7 @@ public class ProductService {
 
 	public Product disable(Product product) throws Exception {
 		log.info(ProductLog.DISABLE_LOG);
-		Optional<Product> foundProduct = Optional.ofNullable(productRepository.findByIdProductAndStatusAndStore_IdStore(product.getIdProduct(), ACTIVE, product.getStore().getIdStore()));
+		Optional<Product> foundProduct = Optional.ofNullable(productRepository.findByIdProductAndStatusAndStore_IdStore(product.getIdProduct(), ENABLE, product.getStore().getIdStore()));
 		boolean found = foundProduct.isPresent();
 		if (!found)
 			throw new Exception("Produto não existente ou já desabilitado");

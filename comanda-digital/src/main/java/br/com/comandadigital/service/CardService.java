@@ -52,9 +52,8 @@ public class CardService {
 
 	public List<Card> listAllOpenCards(long idStore){
 		log.info(CardLog.LIST_OPEN_LOG);
-		return cardRepository.findByStore_idStoreAndEndDateIsNull(idStore);
+		return cardRepository.findByStore_idStoreAndEndDateIsNullOrderByBeginDateDesc(idStore);
 	}
-
 
 	public Card findByIdStoreAndIdCard (long idStore, long idCard){
 		log.info(CardLog.FIND_STOREID_CARDID_LOG);
@@ -68,7 +67,7 @@ public class CardService {
 
 	public List<Card> findByIdStoreAndTableNumberAndOpenCards(long idStore, int tableNumber){
 		log.info(CardLog.FIND_STOREID_TABLENUMBER_LOG);
-		return cardRepository.findByStore_idStoreAndTableNumberAndEndDateIsNull(idStore, tableNumber);
+		return cardRepository.findByStore_idStoreAndTableNumberAndEndDateIsNullOrderByBeginDateDesc(idStore, tableNumber);
 	}
 
 	public Card findLastOpenCardByIdUser(long idUser){
@@ -80,12 +79,6 @@ public class CardService {
 		log.info(CardLog.FIND_CLOSED_BY_USER_LOG);
 		return cardRepository.findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(idUser);
 	}
-
-//	public List<Card> findClosedCardsByBeginDate(VoCardClosedDate vo){
-//		log.info(CardLog.FIND_CLOSED_BY_DATE_USER_LOG);
-//		return cardRepository.findByUser_idUserAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
-//				vo.getIdUser(), vo.getFirstDate(), vo.getSecondDate());
-//	}
 
 	public List<Card> findClosedCardsByStoreAndBeginDate(VoCardClosedDate vo){
 		log.info(CardLog.FIND_CLOSED_BY_DATE_STORE_LOG);

@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Long>{
 	List<User> findAll();
-
+	//Optional<User> findByIdUser(Long idUser);
 	@Query(
 			value = "select u.* from tb_user u, tb_user_permission up, tb_permission p \n" +
 					"where p.description = ? \n" +
@@ -20,10 +20,16 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long>{
 					"and not exists ( select * from tb_store where tb_store.id_user = u.id_user ) ",
 			nativeQuery = true)
 	List<User> findByUserPermissionsByRoleStoreAndWithoutStore(@Param("role") String role);
-	
+
+	List<User> findByUserPermissions_DescriptionContainingAllIgnoreCase(String role);
+
+	List<User> findByNameContainingAllIgnoreCaseAndUserPermissions_Description(String name, String role);
+
 	User findByCpf(String cpf);
 	
 	List<User> findByNameLike(String name);
+
+	Optional<User> findByIdUser(Long idUser);
 	
 	Optional<User> findByEmail(String email);
 	

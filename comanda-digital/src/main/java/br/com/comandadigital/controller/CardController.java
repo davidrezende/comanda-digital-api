@@ -58,7 +58,7 @@ public class CardController {
         }
     }
 
-    @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")//TODO: realizar update em card
     @ApiOperation(value = "Alterar comanda", response = Card.class)
  //   @Transactional(rollbackFor = Exception.class)
@@ -71,7 +71,7 @@ public class CardController {
         }
     }
 
-    @PostMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Fechar comanda", response = Card.class)
  //   @Transactional(rollbackFor = Exception.class)
@@ -144,8 +144,6 @@ public class CardController {
     public ResponseEntity<List<Card>> findByIdStoreAndTableNumberAndOpenCards(@PathVariable long idStore, @PathVariable int tableNumber){
         return new ResponseEntity<>(cardService.findByIdStoreAndTableNumberAndOpenCards(idStore, tableNumber), HttpStatus.OK);
     }
-
-
 
 
 }

@@ -44,7 +44,7 @@ public class Address {
 
     @ApiModelProperty(value = "Complemento do Estabelecimento")
     @NotBlank(message = AddressValidation.COMPLEMENTO_MESSAGE)
-    @Size(min = 2, max = 50, message = AddressValidation.COMPLEMENTO_SIZE_MESSAGE)
+    @Size(min = 1, max = 50, message = AddressValidation.COMPLEMENTO_SIZE_MESSAGE)
     @JsonProperty("complemento")
     @Column(nullable = false)
     private String aditionalInfo;

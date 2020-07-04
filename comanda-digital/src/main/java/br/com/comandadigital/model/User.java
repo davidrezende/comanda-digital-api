@@ -49,13 +49,19 @@ public class User implements Serializable {
     @ApiModelProperty(value = "Código do usuário")
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long idUser;
+    private Long idUser;
 
     @ApiModelProperty(value = "Nome do usuário")
     @NotBlank(message = UserValidation.NAME_VALIDATION_MESSAGE)
     @Size( min = 5, max = 100, message = UserValidation.NAME_VALIDATION_MESSAGE)
     @Column(nullable = false)
     private String name;
+
+//    @ApiModelProperty(value = "Sobrenome do usuário")
+//    @NotBlank(message = UserValidation.SURNAME_VALIDATION_MESSAGE)
+//    @Size( min = 5, max = 100, message = UserValidation.SURNAME_VALIDATION_MESSAGE)
+//    @Column(nullable = false)
+//    private String surname;
 
     @ApiModelProperty(value = "Email do usuário")
     @NotBlank(message = UserValidation.EMAIL_VALIDATION_MESSAGE)
@@ -74,7 +80,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "Senha do usuário")
     @ToString.Exclude
     @NotBlank(message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
-    @Size( min = 8, max = 255, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
+    @Size( min = 4, max = 255, message = UserValidation.PASSWORD_VALIDATION_MESSAGE)
     @Column(nullable = false)
     private String password;
 

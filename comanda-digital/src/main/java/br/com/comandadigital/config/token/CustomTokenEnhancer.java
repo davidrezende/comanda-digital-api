@@ -27,6 +27,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         addInfo.put("idUser", userSystem.getUser().getIdUser());
         addInfo.put("name", userSystem.getUser().getName());
         addInfo.put("idStore", storeByUser.map(Store::getIdStore).orElse(null));
+        addInfo.put("storeName", storeByUser.map(Store::getName).orElse(null));
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(addInfo);
         return accessToken;

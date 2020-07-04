@@ -64,6 +64,5 @@ public class Card {
     @JoinColumn(name = "id_user")
     private User user;
 
-    
 
 }

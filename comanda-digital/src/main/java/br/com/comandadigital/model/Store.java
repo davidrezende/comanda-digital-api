@@ -58,10 +58,8 @@ public class Store implements Serializable {
     @Column(nullable = false)
     private String phone;
 
-//    @ApiModelProperty(value = "Endereço do estabelecimento")
-//    @NotBlank(message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
-//    @Size( max = 200, message = StoreValidation.ADDRESS_VALIDATION_MESSAGE)
-//    private String address;
+    @ApiModelProperty(value = "Status do estabelecimento")
+    private Integer status = 1;
 
     @ApiModelProperty(value = "Data do registro do estabelecimento")
     @Column(nullable = false)
@@ -73,13 +71,13 @@ public class Store implements Serializable {
     private User user;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_address")
     private Address address;
 
-    @JsonIgnore
-    @OneToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+/*    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_store")
-    private List<Card> cards;
+    private List<Card> cards;*/
 
 }

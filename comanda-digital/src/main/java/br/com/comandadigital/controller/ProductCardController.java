@@ -8,19 +8,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.comandadigital.model.ProductCard;
 import br.com.comandadigital.service.ProductCardService;
@@ -37,56 +31,94 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api(value = "Endpoints de Produto Comanda")
 public class ProductCardController {
-	private final ProductCardService productCardService;
+    private final ProductCardService productCardService;
 
-	@GetMapping(path = "/find/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
-	@ApiOperation(value = "Procurar produtos na comanda por ID da Comanda", response = ProductCard[].class)
-	@ResponseBody
-	public ResponseEntity<?> listByCard(@PathVariable Long idCard){
-		return new ResponseEntity<>(productCardService.listByCard(idCard), HttpStatus.OK);
-	}
+    @GetMapping(path = "/find/card/{idCard}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
+    @ApiOperation(value = "Procurar produtos na comanda por ID da Comanda", response = ProductCard[].class)
+    @ResponseBody
+    public ResponseEntity<?> listByCard(@PathVariable Long idCard) {
+        return new ResponseEntity<>(productCardService.listByCard(idCard), HttpStatus.OK);
+    }
 
-	@PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
-	@ApiOperation(value = "Adicionar produto na comanda", response = ProductCard.class)
+    @PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Adicionar produto na comanda", response = ProductCard.class)
 //	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
-		try{
-			return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
-		}catch(DataIntegrityViolationException e) {
-			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-		}
-	}
+    public ResponseEntity<?> addProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
+        try {
+            return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
 
-	@PostMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
-	@ApiOperation(value = "Alterar produto na comanda", response = ProductCard.class)
-	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
-		try{
-			return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
-		}catch(DataIntegrityViolationException e) {
-			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-		}
-	}
+    @PutMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Alterar produto na comanda", response = ProductCard.class)
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
+        try {
+            return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
 
-	@GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
-	@ApiOperation(value = "Listar todos os produtos nas comandas abertas", response = ProductCard[].class)
-	public ResponseEntity<List<ProductCard>> listAllOpenCards() {
-		return new ResponseEntity<List<ProductCard>>(productCardService.listAllOpenCards(), HttpStatus.OK);
-	}
+    @PutMapping(path = "/update/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Alterar status do preparo do produto na comanda para fazendo e concluído", response = ProductCard.class)
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> updateStatusProductCard(@RequestBody @Valid ProductCard productCard) throws Exception {
+        try {
+            return new ResponseEntity<>(productCardService.updateStatus(productCard), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
 
-	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
-	@ApiOperation(value = "Listar todos os produtos nas comandas", response = ProductCard[].class)
-	public ResponseEntity<List<ProductCard>> listAll() {
-		return new ResponseEntity<List<ProductCard>>(productCardService.listAll(), HttpStatus.OK);
-	}
+    @PutMapping(path = "/update/status/rollBack", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Alterar status do preparo do produto na comanda para aberto", response = ProductCard.class)
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<?> updateStatusProductCardRollBack(@RequestBody @Valid ProductCard productCard) throws Exception {
+        try {
+            return new ResponseEntity<>(productCardService.updateStatusRollBack(productCard), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    @GetMapping(path = "/listAllOpenCards", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
+    @ApiOperation(value = "Listar todos os produtos nas comandas abertas", response = ProductCard[].class)
+    public ResponseEntity<List<ProductCard>> listAllOpenCards() {
+        return new ResponseEntity<List<ProductCard>>(productCardService.listAllOpenCards(), HttpStatus.OK);
+    }
 
-	
+    @GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
+    @ApiOperation(value = "Listar todos os produtos nas comandas", response = ProductCard[].class)
+    public ResponseEntity<List<ProductCard>> listAll() {
+        return new ResponseEntity<List<ProductCard>>(productCardService.listAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/listProductCardToKitchenByStore/store/id/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('read')")
+    @ApiOperation(value = "Listar todos os produtos abertos de comandas abertas por Id do Estabelecimento", response = ProductCard[].class)
+    @ResponseBody
+    public ResponseEntity<List<ProductCard>> listProductCardToKitchen(@PathVariable Long idStore) {
+        return new ResponseEntity<>(productCardService.listAllProductCardStatusAvailableInOpenCardAndProductTypeIsFoodAndIdStore(idStore), HttpStatus.OK);
+    }
+
 }

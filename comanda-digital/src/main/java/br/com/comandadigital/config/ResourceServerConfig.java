@@ -22,7 +22,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/v1").permitAll()
                 .antMatchers( "/**/swagger-ui.html").permitAll()
-                .antMatchers(HttpMethod.GET, "/**/swagger-resources/**", "/**/webjars/springfox-swagger-ui/**", "/**/v2/api-docs/**").permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/**/swagger-resources/**",
+                        "/**/webjars/springfox-swagger-ui/**",
+                        "/**/v1/product/menu/**",
+                        "/**/v2/api-docs/**").permitAll()
                 .anyRequest().authenticated()//.permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
