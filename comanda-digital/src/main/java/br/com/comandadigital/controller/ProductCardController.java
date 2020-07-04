@@ -14,14 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.comandadigital.model.ProductCard;
 import br.com.comandadigital.service.ProductCardService;
@@ -61,7 +54,7 @@ public class ProductCardController {
         }
     }
 
-    @PostMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar produto na comanda", response = ProductCard.class)
     @Transactional(rollbackFor = Exception.class)
@@ -74,7 +67,7 @@ public class ProductCardController {
         }
     }
 
-    @PostMapping(path = "/update/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/update/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar status do preparo do produto na comanda para fazendo e concluído", response = ProductCard.class)
     @Transactional(rollbackFor = Exception.class)
@@ -90,7 +83,7 @@ public class ProductCardController {
         }
     }
 
-    @PostMapping(path = "/update/status/rollBack", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/update/status/rollBack", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar status do preparo do produto na comanda para aberto", response = ProductCard.class)
     @Transactional(rollbackFor = Exception.class)

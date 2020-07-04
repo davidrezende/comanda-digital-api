@@ -41,6 +41,14 @@ public class ProductController {
 	public ResponseEntity<?> listByStore( @PathVariable Long idStore){
 		return new ResponseEntity<>(productService.listByStore(idStore), HttpStatus.OK);
 	}
+
+	//servico a ser utilizado no cardapio
+	@GetMapping(path = "/menu/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiOperation(value = "Pesquisar produtos por ID do Estabelecimento", response = Product[].class)
+	@ResponseBody
+	public ResponseEntity<?> listMenuByStore( @PathVariable Long idStore){
+		return new ResponseEntity<>(productService.listMenuByStore(idStore), HttpStatus.OK);
+	}
 	
 	@GetMapping(path = "/find/name/{name}/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
@@ -63,7 +71,7 @@ public class ProductController {
 		}
 	}
 
-	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar produto", response = Product.class)
 	//@Transactional(rollbackFor =  Exception.class)
@@ -76,7 +84,7 @@ public class ProductController {
 		}
 	}
 
-	@PostMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
 	@ApiOperation(value = "Desabilitar produto", response = Product.class)
 //	@Transactional(rollbackFor =  Exception.class)
@@ -89,7 +97,7 @@ public class ProductController {
 		}
 	}
 
-	@PostMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ApiOperation(value = "Deletar produto", response = Product.class)
 //	@Transactional(rollbackFor =  Exception.class)
 	public ResponseEntity<?> delete(@RequestBody @Valid Product product){

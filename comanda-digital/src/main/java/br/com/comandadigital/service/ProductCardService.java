@@ -29,42 +29,39 @@ public class ProductCardService {
         if (productCard.getAmountProduct() < 1) {
             throw new Exception("Quantidade do produto invalida");
         }
-
         Optional<Product> foundProduct = Optional.ofNullable(productRepository.findByIdProduct(productCard.getProduct().getIdProduct()));
-        boolean foundProductStatus = foundProduct.isPresent();
-
-        if (!foundProductStatus) {
+        if (!foundProduct.isPresent()) {
             throw new Exception("Produto inexistente para adicionar a comanda!");
         }
-
+        //verifico se produto ja existe na comanda com status de em preparo ou finalizado
 		List<Integer> statusKitchen = new ArrayList<Integer>();
 		statusKitchen.add(PRODUCT_CARD_DONE);
 		statusKitchen.add(PRODUCT_CARD_DOING);
-
         Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByCard_IdCardAndProduct_IdProductAndStatusNotIn(productCard.getCard().getIdCard(), productCard.getProduct().getIdProduct(), statusKitchen));
-
-        boolean foundProductCardStatus = foundProductCard.isPresent();
-        if (foundProductCardStatus) {
+        if (foundProductCard.isPresent()) {
+            //caso o produto ainda nao tenha comecado a ser preparado permito a alteracao na quantidade
             foundProductCard.get().setAmountProduct(productCard.getAmountProduct() + foundProductCard.get().getAmountProduct());
             foundProductCard.get().setDateChange(new Date());
-			return productCardRepository.save(foundProductCard.get());
-		} else {
-			productCard.setValue(foundProduct.get().getValue());
+            return productCardRepository.save(foundProductCard.get());
+        } else {
+            //caso esteja em preparo ou finalizado adiciono um novo pedido do mesmo produto a comanda
+            productCard.setValue(foundProduct.get().getValue());
 			productCard.setDateRegistration(new Date());
             return productCardRepository.save(productCard);
         }
-/*		Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByCard_IdCardAndProduct_IdProduct(productCard.getCard().getIdCard(), productCard.getProduct().getIdProduct()));
-		boolean foundProductCardStatus = foundProductCard.isPresent();
-		if (foundProductCardStatus) {
-			foundProductCard.get().setAmountProduct(productCard.getAmountProduct()+foundProductCard.get().getAmountProduct());
-			foundProductCard.get().setDateRegistration(new Date());
-			return productCardRepository.save(foundProductCard.get());
-		}*/
     }
 
     public ProductCard update(ProductCard productCard) throws Exception {
         log.info(ProductCardLog.UPDATE_LOG);
-            productCard.setDateChange(new Date());
+        //verifico se produto ja esta em preparo ou foi finalizado
+        List<Integer> statusKitchen = new ArrayList<Integer>();
+        statusKitchen.add(PRODUCT_CARD_DONE);
+        statusKitchen.add(PRODUCT_CARD_DOING);
+        Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByCard_IdCardAndProduct_IdProductAndStatusNotIn(productCard.getCard().getIdCard(), productCard.getProduct().getIdProduct(), statusKitchen));
+        //caso ja esteja em preparo ou finalizado nao permito o usuario altera-lo
+        if(!foundProductCard.isPresent()){
+            throw new Exception("Produto já está em preparo ou foi finalizado!");
+        }
         if (productCard.getAmountProduct() < 1) {
             log.info(ProductCardLog.DELETE_LOG);
             if (delete(productCard) == 1) {
@@ -74,6 +71,9 @@ public class ProductCardService {
             }
         }
 
+
+
+        productCard.setDateChange(new Date());
         return productCardRepository.save(productCard);
     }
 
@@ -105,8 +105,7 @@ public class ProductCardService {
     public ProductCard updateStatus(ProductCard productCard) throws Exception {
         log.info(ProductCardLog.UPDATE_STATUS_LOG);
         Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByIdProductCardAndStatus(productCard.getIdProductCard(), productCard.getStatus()));
-        boolean foundProductStatus = foundProductCard.isPresent();
-        if (!foundProductStatus) {
+        if (!foundProductCard.isPresent()) {
             throw new Exception("Pedido nao existente ou ja concluido");
         } else {
             if (foundProductCard.get().getStatus() == PRODUCT_CARD_OPEN) {
@@ -123,8 +122,7 @@ public class ProductCardService {
     public ProductCard updateStatusRollBack(ProductCard productCard) throws Exception {
         log.info(ProductCardLog.UPDATE_STATUS_ROLLBACK_LOG);
         Optional<ProductCard> foundProductCard = Optional.ofNullable(productCardRepository.findByIdProductCardAndStatus(productCard.getIdProductCard(), productCard.getStatus()));
-        boolean foundProductStatus = foundProductCard.isPresent();
-        if (!foundProductStatus) {
+        if (!foundProductCard.isPresent()) {
             throw new Exception("Pedido nao existente ou ja concluido");
         } else {
             if (foundProductCard.get().getStatus() == PRODUCT_CARD_DOING) {

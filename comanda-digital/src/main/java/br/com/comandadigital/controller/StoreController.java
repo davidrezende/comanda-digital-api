@@ -53,7 +53,7 @@ public class StoreController {
         }
     }
 
-    @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Alterar estabelecimento", response = Store.class)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
     @Transactional(rollbackFor = Exception.class)
@@ -67,7 +67,7 @@ public class StoreController {
     }
 
 
-    @PostMapping(path = "/enable/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(path = "/enable/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Ativar ou desativar estabelecimento", response = Store.class)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
     @Transactional(rollbackFor = Exception.class)

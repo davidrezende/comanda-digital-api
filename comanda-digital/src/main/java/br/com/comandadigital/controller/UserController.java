@@ -18,14 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.comandadigital.model.User;
 import br.com.comandadigital.repository.UserRepository;
@@ -102,7 +95,7 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	//@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar usuário", response = User.class)
@@ -119,7 +112,7 @@ public class UserController {
 	}
 
 
-	@PostMapping(path = "/updateByAdmin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping(path = "/updateByAdmin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	//@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Administrador alterando usuário", response = User.class)
@@ -136,7 +129,7 @@ public class UserController {
 	}
 
 
-	@PostMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PutMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	//@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar senha do usuário")

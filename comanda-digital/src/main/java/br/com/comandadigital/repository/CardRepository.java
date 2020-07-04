@@ -12,11 +12,11 @@ import java.util.List;
 
 public interface CardRepository extends PagingAndSortingRepository<Card, Long> {
     List<Card> findAll();
-    List<Card> findByStore_idStoreAndEndDateIsNull(Long idStore);
+    List<Card> findByStore_idStoreAndEndDateIsNullOrderByBeginDateDesc(Long idStore);
     Card findByStore_idStoreAndIdCard(Long idStore, Long idCard);
     List<Card> findByUser_Cpf(String cpf);
     Card findByIdCardAndEndDateIsNull(Long idCard);
-    List<Card> findByStore_idStoreAndTableNumberAndEndDateIsNull(Long idStore, int tableNumber);
+    List<Card> findByStore_idStoreAndTableNumberAndEndDateIsNullOrderByBeginDateDesc(Long idStore, int tableNumber);
     Card findFirstByUser_IdUserAndEndDateIsNullOrderByBeginDateDesc(Long idUser);
     List<Card> findByUser_idUserAndEndDateIsNotNullOrderByBeginDateDesc(Long idUser);
     List<Card> findByUser_idUserAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(Long idUser, Date beginDate, Date endDate);

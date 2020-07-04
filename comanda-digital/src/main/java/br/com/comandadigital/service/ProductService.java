@@ -27,6 +27,11 @@ public class ProductService {
 		return productRepository.findByStatusAndStore_idStore(ENABLE, IdStore);
 	}
 
+	public List<Product> listMenuByStore(long IdStore){
+		log.info(ProductLog.LIST_MENU_LOG);
+		return productRepository.findByStatusAndStore_idStoreOrderByTypeAsc(ENABLE, IdStore);
+	}
+
 	public List<Product> listByNameAndStore(String name,long idStore){
 		log.info(ProductLog.LIST_NAME_STORE_LOG);
 		return productRepository.findByNameContainingAndStore_IdStore(name, idStore);
