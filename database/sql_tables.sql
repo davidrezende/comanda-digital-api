@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_address` (
   `zip_code` VARCHAR(9) NOT NULL,
   PRIMARY KEY (`id_address`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_user` (
   `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_user`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 25
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 CREATE UNIQUE INDEX `UK_869sa3rebuf3nm0d4jwxdtouk` ON `comandadigitaldb`.`tb_user` (`cpf` ASC) ;
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_store` (
     FOREIGN KEY (`id_address`)
     REFERENCES `comandadigitaldb`.`tb_address` (`id_address`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 CREATE UNIQUE INDEX `UK_895dx0v93rip3ae00r4ngwarj` ON `comandadigitaldb`.`tb_store` (`cnpj` ASC) ;
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_card` (
     FOREIGN KEY (`id_user`)
     REFERENCES `comandadigitaldb`.`tb_user` (`id_user`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 61
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 CREATE INDEX `FKj0o7cddauigvranm6itf33wuv` ON `comandadigitaldb`.`tb_card` (`id_store` ASC)   ;
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_permission` (
   `description` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_permission`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_product_type` (
   `description` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_product_type`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_product` (
     FOREIGN KEY (`id_store`)
     REFERENCES `comandadigitaldb`.`tb_store` (`id_store`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 22
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 CREATE INDEX `FKrwg57ddicnhrg0rs18arkjedu` ON `comandadigitaldb`.`tb_product` (`id_store` ASC)   ;
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `comandadigitaldb`.`tb_product_card` (
     FOREIGN KEY (`id_product`)
     REFERENCES `comandadigitaldb`.`tb_product` (`id_product`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 145
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = latin1;
 
 CREATE INDEX `FK76a8du8c7ci359ac4nsrurak4` ON `comandadigitaldb`.`tb_product_card` (`id_card` ASC)   ;
