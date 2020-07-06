@@ -36,26 +36,12 @@ public class UserController {
 	private final UserService  userService;
 	private final UserRepository userRepository;
 
-//	@GetMapping("/users")
-//	public List<User> list(){
-//		return userService.listAll();
-//	}
-	
-/*	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
-	@ApiOperation(value = "Listar todos os usuários com paginação", response = User[].class)
-	public ResponseEntity<List<User>> listAll(Pageable pageable){
-		return new ResponseEntity<>(userService.listAll(pageable), HttpStatus.OK);
-	}*/
-
 	@GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
 	@ApiOperation(value = "Listar todos os usuários", response = User[].class)
 	public ResponseEntity<List<User>> listAll(){
 		return new ResponseEntity<>(userService.listAll(), HttpStatus.OK);
 	}
-
-
 
 	@GetMapping(path = "/listAllUsersWithoutStoreAndPermissionUserStore", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
@@ -81,7 +67,7 @@ public class UserController {
 
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
-	//@Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	@ApiOperation(value = "Salvar novo usuário", response = User.class)
 	public ResponseEntity<?> save(@RequestBody @Valid User user){
 		try{
@@ -96,7 +82,7 @@ public class UserController {
 	}
 	
 	@PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	//@Transactional(rollbackFor  = Exception.class)
+	@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar usuário", response = User.class)
 	public ResponseEntity<?> update(@RequestBody @Valid User user) throws Exception {
@@ -113,7 +99,7 @@ public class UserController {
 
 
 	@PutMapping(path = "/updateByAdmin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	//@Transactional(rollbackFor  = Exception.class)
+	@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Administrador alterando usuário", response = User.class)
 	public ResponseEntity<?> updateByAdmin(@RequestBody @Valid User user) throws Exception {
@@ -130,7 +116,7 @@ public class UserController {
 
 
 	@PutMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	//@Transactional(rollbackFor  = Exception.class)
+	@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar senha do usuário")
 	public ResponseEntity<?> update(@RequestBody @Valid VoUserChangePassword userChangePassword) throws Exception {
@@ -154,7 +140,7 @@ public class UserController {
     }
 
 	@GetMapping(path = "/find/id/{idUser}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ApiOperation(value = "Pesquisar por ID", response = User[].class)
+	@ApiOperation(value = "Pesquisar por ID", response = User.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE')and #oauth2.hasScope('read')")
 	@ResponseBody
 	public ResponseEntity<?> findById(@PathVariable Long idUser) {
@@ -167,17 +153,6 @@ public class UserController {
     public ResponseEntity<?> findByCpfLike(@PathVariable String cpf) {
         return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
     }
-
-//	@GetMapping(path = "/find/name/{}/ithStore", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//	@ApiOperation(value = "Pesquisar por documento", response = User.class)
-//	@ResponseBody
-//	public ResponseEntity<?> findByCpf(@PathVariable String cpf) {
-//		return new ResponseEntity<>(userRepository.findByCpf(cpf), HttpStatus.OK);
-//	}
-
-
-
-	
 
 
 }

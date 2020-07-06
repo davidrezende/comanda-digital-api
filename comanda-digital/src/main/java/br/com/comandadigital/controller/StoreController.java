@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("v1/store")
@@ -41,14 +42,17 @@ public class StoreController {
     }
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    //@Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @ApiOperation(value = "Salvar novo estabelecimento", response = Store.class)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
     public ResponseEntity<?> save(@RequestBody @Valid Store store) {
-        try{
+        try {
             return new ResponseEntity<>(storeService.save(store), HttpStatus.CREATED);
-        }catch(DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
@@ -58,26 +62,28 @@ public class StoreController {
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody @Valid Store store) {
-//        try{
+        try {
             return new ResponseEntity<>(storeService.update(store), HttpStatus.OK);
-//        }catch(DataIntegrityViolationException e) {
-//            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
-//            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-//        }
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
     }
-
 
     @PutMapping(path = "/enable/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Ativar ou desativar estabelecimento", response = Store.class)
     @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> enableDisable(@RequestBody @Valid Store store) throws Exception {
-        try{
+        try {
             return new ResponseEntity<>(storeService.enableDisable(store), HttpStatus.OK);
-        }catch(DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        }catch(Exception e){
+        } catch (Exception e) {
             ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
@@ -88,15 +94,7 @@ public class StoreController {
     @ApiOperation(value = "Pesquisar por nome do estabelecimento", response = Store[].class)
     @ResponseBody
     public ResponseEntity<?> findByNameLike(@PathVariable String name) {
-//        return new ResponseEntity<>(storeRepository.findByNameContainingAllIgnoreCaseOrderByRegistrationDateDesc(name), HttpStatus.OK);
         return new ResponseEntity<>(storeService.findByName(name), HttpStatus.OK);
     }
 
-//    @GetMapping(path = "/find/cnpj/{cnpj}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    @PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
-//    @ApiOperation(value = "Pesquisar estabelecimento por documento", response = Store.class)
-//    @ResponseBody
-//    public ResponseEntity<?> findByCnpjLike(@Valid String cnpj) {
-//        return new ResponseEntity<>(storeRepository.findByCnpjLike(cnpj), HttpStatus.OK);
-//    }
 }

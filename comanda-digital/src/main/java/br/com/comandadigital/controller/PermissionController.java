@@ -38,7 +38,6 @@ public class PermissionController {
 	@GetMapping(path = "/listAll", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') and #oauth2.hasScope('read')")
 	@ApiOperation(value = "Listar todas as roles", response = Permission[].class)
-	//@ApiOperation(value = "List all users", response = ResponseEntity.class)
 	public ResponseEntity<List<?>> listAll() {
 		return new ResponseEntity<List<?>>(permissionService.listAll(), HttpStatus.OK);
 	}
