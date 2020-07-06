@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import br.com.comandadigital.model.Card;
+import br.com.comandadigital.model.vo.VoRetReportBillingStore;
 import br.com.comandadigital.model.vo.VoRetReportTopSellingProduct;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -82,6 +83,70 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 																			 @Param("productType") String productType,
 																			 @Param("firstDate") Date firstDate,
 																			 @Param("secondDate") Date secondDate );
+
+
+	@Query(
+			value = "select  \n" +
+					"  DATE_FORMAT(card.end_date, '%m/%Y') as mes, \n" +
+					"    prdtp.id_product_type as idCategoria, \n" +
+					"	 prdtp.description as descricaoCategoria, \n" +
+					"    count(prdcard.id_product) as qtd, \n" +
+					"    sum(prdcard.amount_product*prdcard.value) as totFaturado \n" +
+					" from \n" +
+					" tb_card as card, \n" +
+					"    tb_product_card as prdcard, \n" +
+					"    tb_product as prd, \n" +
+					"    tb_product_type as prdtp \n" +
+					" where \n" +
+					" card.id_store = ? \n" +
+					"    and card.end_date is not null \n" +
+					"	 and  card.end_date  >=  date_add(SYSDATE(), interval - 12 month) \n"+
+					"    and card.id_card = prdcard.id_card \n" +
+					"    and prd.id_store = card.id_store \n" +
+					"    and prdcard.id_product = prd.id_product \n" +
+					"    and prd.id_type = prdtp.id_product_type \n" +
+					" group by \n" +
+					" DATE_FORMAT(card.end_date, '%m/%Y'), \n" +
+					"    prdtp.id_product_type, \n" +
+					"	 prdtp.description	\n" +
+					" order by \n" +
+					" card.end_date desc, \n" +
+					" prdtp.id_product_type \n",
+			nativeQuery = true)
+	List<VoRetReportBillingStore> reportTotBillingByStore(@Param("idStore") Long idStore);
+
+	@Query(
+			value = "select  \n" +
+					"  DATE_FORMAT(card.end_date, '%m/%Y') as mes, \n" +
+					"    prdtp.id_product_type as idCategoria, \n" +
+					"	 prdtp.description as descricaoCategoria, \n" +
+					"    count(prdcard.id_product) as qtd, \n" +
+					"    sum(prdcard.amount_product*prdcard.value) as totFaturado \n" +
+					" from \n" +
+					" tb_card as card, \n" +
+					"    tb_product_card as prdcard, \n" +
+					"    tb_product as prd, \n" +
+					"    tb_product_type as prdtp \n" +
+					" where \n" +
+					" card.id_store = ? \n" +
+					"    and card.end_date is not null \n" +
+					"    and card.end_date  >=  ? \n"+
+					"	 and card.end_date  <=  ? \n"+
+					"    and card.id_card = prdcard.id_card \n" +
+					"    and prd.id_store = card.id_store \n" +
+					"    and prdcard.id_product = prd.id_product \n" +
+					"    and prd.id_type = prdtp.id_product_type \n" +
+					" group by \n" +
+					" DATE_FORMAT(card.end_date, '%m/%Y'), \n" +
+					"    prdtp.id_product_type, \n" +
+					"	 prdtp.description	\n" +
+					" order by \n" +
+					" card.end_date desc, \n" +
+					" prdtp.id_product_type \n",
+			nativeQuery = true)
+	List<VoRetReportBillingStore> reportTotBillingByStoreAndDate(@Param("idStore") Long idStore	,
+																 @Param("firstDate") Date firstDate,
+																 @Param("secondDate") Date secondDate );
 
 	@Query(
 			value = "select p.name as name , \n" +

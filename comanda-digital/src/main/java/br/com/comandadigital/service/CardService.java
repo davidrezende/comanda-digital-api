@@ -83,14 +83,14 @@ public class CardService {
 	public List<Card> findClosedCardsByStoreAndBeginDate(VoCardClosedDate vo){
 		log.info(CardLog.FIND_CLOSED_BY_DATE_STORE_LOG);
 			if(vo.getFirstDate() == null || vo.getSecondDate() == null){
-				return cardRepository.findByStore_idStoreAndEndDateIsNotNullOrderByBeginDateDesc(
+				return cardRepository.findByStore_idStoreAndEndDateIsNotNullOrderByEndDateDesc(
 						vo.getIdStore());
 			}else{
 				Calendar c = Calendar.getInstance();
 				c.setTime(vo.getSecondDate());
 				c.add(Calendar.DATE, +1);
 				vo.setSecondDate(c.getTime());
-				return cardRepository.findByStore_idStoreAndEndDateIsNotNullAndBeginDateBetweenOrderByBeginDateDesc(
+				return cardRepository.findByStore_idStoreAndEndDateIsNotNullAndBeginDateBetweenOrderByEndDateDesc(
 					vo.getIdStore(), vo.getFirstDate(), vo.getSecondDate());
 			}
 	}

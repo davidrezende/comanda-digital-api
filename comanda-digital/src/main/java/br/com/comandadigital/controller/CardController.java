@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -48,12 +49,15 @@ public class CardController {
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Salvar nova comanda", response = Card.class)
-  //  @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> save(@RequestBody @Valid Card card) {
         try{
             return new ResponseEntity<>(cardService.save(card), HttpStatus.CREATED);
         }catch(DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
@@ -61,12 +65,15 @@ public class CardController {
     @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")//TODO: realizar update em card
     @ApiOperation(value = "Alterar comanda", response = Card.class)
- //   @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody @Valid Card card) {
         try{
             return new ResponseEntity<>(cardService.update(card), HttpStatus.OK);
         }catch(DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
@@ -74,12 +81,15 @@ public class CardController {
     @PutMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Fechar comanda", response = Card.class)
- //   @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateAndCloseCard(@RequestBody @Valid Card card) throws Exception {
         try{
             return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.OK);
         }catch(DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
@@ -123,12 +133,6 @@ public class CardController {
     public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@PathVariable long idUser){
         return new ResponseEntity<>(cardService.findClosedCardsByIdUser(idUser), HttpStatus.OK);
     }
-
-//    @PostMapping(path = "/find/closedCardsByUserAndDate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('read')")
-//    public ResponseEntity<List<Card>>  findClosedCardsByIdUser(@RequestBody VoCardClosedDate vo){
-//        return new ResponseEntity<List<Card>> (cardService.findClosedCardsByBeginDate(vo), HttpStatus.OK);
-//    }
 
     @PostMapping(path = "/find/closedCardsByStoreAndDate", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('read')")

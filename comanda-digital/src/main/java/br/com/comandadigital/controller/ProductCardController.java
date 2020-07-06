@@ -44,12 +44,15 @@ public class ProductCardController {
     @PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Adicionar produto na comanda", response = ProductCard.class)
-//	@Transactional(rollbackFor =  Exception.class)
+	@Transactional(rollbackFor =  Exception.class)
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
         try {
             return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }
@@ -63,6 +66,9 @@ public class ProductCardController {
             return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
             ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
     }

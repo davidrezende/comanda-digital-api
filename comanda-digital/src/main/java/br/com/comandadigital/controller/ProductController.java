@@ -32,81 +32,92 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api(value = "Endpoints de Produto")
 public class ProductController {
-	private final ProductService productService;
-	
-	@GetMapping(path = "/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
-	@ApiOperation(value = "Pesquisar produtos por ID do Estabelecimento", response = Product[].class)
-	@ResponseBody
-	public ResponseEntity<?> listByStore( @PathVariable Long idStore){
-		return new ResponseEntity<>(productService.listByStore(idStore), HttpStatus.OK);
-	}
+    private final ProductService productService;
 
-	//servico a ser utilizado no cardapio
-	@GetMapping(path = "/menu/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ApiOperation(value = "Pesquisar produtos por ID do Estabelecimento", response = Product[].class)
-	@ResponseBody
-	public ResponseEntity<?> listMenuByStore( @PathVariable Long idStore){
-		return new ResponseEntity<>(productService.listMenuByStore(idStore), HttpStatus.OK);
-	}
-	
-	@GetMapping(path = "/find/name/{name}/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
-	@ApiOperation(value = "Procurar produtos por nome e ID do Estabelecimento", response = Product[].class)
-	@ResponseBody
-	public ResponseEntity<?> listByNameAndStore(@PathVariable String name, @PathVariable Long idStore){
-		return new ResponseEntity<>( productService.listByNameAndStore(name, idStore), HttpStatus.OK);
-	}
-	
-	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
-	@ApiOperation(value = "Salvar novo produto", response = Product.class)
-//	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<?> save(@RequestBody @Valid Product product){
-		try{
-			return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
-		}catch(DataIntegrityViolationException e) {
-			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+    @GetMapping(path = "/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
+    @ApiOperation(value = "Pesquisar produtos por ID do Estabelecimento", response = Product[].class)
+    @ResponseBody
+    public ResponseEntity<?> listByStore(@PathVariable Long idStore) {
+        return new ResponseEntity<>(productService.listByStore(idStore), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/menu/find/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Pesquisar produtos por ID do Estabelecimento para o Cardapio", response = Product[].class)
+    @ResponseBody
+    public ResponseEntity<?> listMenuByStore(@PathVariable Long idStore) {
+        return new ResponseEntity<>(productService.listMenuByStore(idStore), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/find/name/{name}/store/{idStore}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and  #oauth2.hasScope('read')")
+    @ApiOperation(value = "Procurar produtos por nome e ID do Estabelecimento", response = Product[].class)
+    @ResponseBody
+    public ResponseEntity<?> listByNameAndStore(@PathVariable String name, @PathVariable Long idStore) {
+        return new ResponseEntity<>(productService.listByNameAndStore(name, idStore), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Salvar novo produto", response = Product.class)
+	@Transactional(rollbackFor =  Exception.class)
+    public ResponseEntity<?> save(@RequestBody @Valid Product product) {
+        try {
+            return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Alterar produto", response = Product.class)
+    @Transactional(rollbackFor =  Exception.class)
+    public ResponseEntity<?> update(@RequestBody @Valid Product product) {
+        try {
+            return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
+    @ApiOperation(value = "Desabilitar produto", response = Product.class)
+	@Transactional(rollbackFor =  Exception.class)
+    public ResponseEntity<?> disable(@RequestBody @Valid Product product) throws Exception {
+        try {
+            return new ResponseEntity<>(productService.disable(product), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Deletar produto", response = Product.class)
+	@Transactional(rollbackFor =  Exception.class)
+    public ResponseEntity<?> delete(@RequestBody @Valid Product product) {
+        try {
+            return new ResponseEntity<>(productService.delete(product), HttpStatus.OK);
+        } catch (DataIntegrityViolationException e) {
+            ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+			ErrorResponse errorResponse = RestExceptionHandler.getExceptionsErrors(e);
 			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 		}
-	}
-
-	@PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
-	@ApiOperation(value = "Alterar produto", response = Product.class)
-	//@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<?> update(@RequestBody @Valid Product product){
-		try{
-			return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
-		}catch(DataIntegrityViolationException e) {
-			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@PutMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
-	@ApiOperation(value = "Desabilitar produto", response = Product.class)
-//	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<?> disable(@RequestBody @Valid Product product) throws Exception {
-		try{
-			return new ResponseEntity<>(productService.disable(product), HttpStatus.OK);
-		}catch(DataIntegrityViolationException e) {
-			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@PutMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@ApiOperation(value = "Deletar produto", response = Product.class)
-//	@Transactional(rollbackFor =  Exception.class)
-	public ResponseEntity<?> delete(@RequestBody @Valid Product product){
-		try{
-			return new ResponseEntity<>(productService.delete(product), HttpStatus.OK);
-		}catch(DataIntegrityViolationException e) {
-			ErrorResponse errorResponse = RestExceptionHandler.getConstraintErrors(e);
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-		}
-	}
+    }
 
 }

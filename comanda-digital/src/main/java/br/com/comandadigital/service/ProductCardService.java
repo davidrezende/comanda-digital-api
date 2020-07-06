@@ -78,22 +78,22 @@ public class ProductCardService {
     }
 
     public long delete(ProductCard productCard) {
-//		log.info(LogConstants.LIST_BY_CARD);
+		log.info(ProductCardLog.DELETE_BY_ID_LOG);
         return productCardRepository.deleteByIdProductCard(productCard.getIdProductCard());
     }
 
     public List<ProductCard> listByCard(Long idCard) {
-//		log.info(LogConstants.LIST_BY_CARD);		
+		log.info(ProductCardLog.LIST_BY_ID_CARD_LOG);
         return productCardRepository.findByCard_idCard(idCard);
     }
 
     public List<ProductCard> listAllOpenCards() {
-//		log.info(LogConstants.LISTALdL);
+		log.info(ProductCardLog.LIST_ALL_PRODUCTS_IN_CARD_LOG);
         return productCardRepository.findByCard_EndDateIsNull();
     }
 
     public List<ProductCard> listAll() {
-//		log.info(LogConstants.LISTALdL);
+		log.info(ProductCardLog.LIST_ALL_PRODUCTS_IN_OPEN_CARD_LOG);
         return productCardRepository.findAll();
     }
 
@@ -108,9 +108,9 @@ public class ProductCardService {
         if (!foundProductCard.isPresent()) {
             throw new Exception("Pedido nao existente ou ja concluido");
         } else {
-            if (foundProductCard.get().getStatus() == PRODUCT_CARD_OPEN) {
+            if (foundProductCard.get().getStatus().equals(PRODUCT_CARD_OPEN)) {
                 foundProductCard.get().setStatus(PRODUCT_CARD_DOING);
-            } else if (foundProductCard.get().getStatus() == PRODUCT_CARD_DOING) {
+            } else if (foundProductCard.get().getStatus().equals(PRODUCT_CARD_DOING)) {
                 foundProductCard.get().setStatus(PRODUCT_CARD_DONE);
             } else {
                 throw new Exception("Pedido ja concluido");
@@ -125,7 +125,7 @@ public class ProductCardService {
         if (!foundProductCard.isPresent()) {
             throw new Exception("Pedido nao existente ou ja concluido");
         } else {
-            if (foundProductCard.get().getStatus() == PRODUCT_CARD_DOING) {
+            if (foundProductCard.get().getStatus().equals(PRODUCT_CARD_DOING)) {
                 foundProductCard.get().setStatus(PRODUCT_CARD_OPEN);
             }else {
                 throw new Exception("Pedido ja esta aberto ou finalizado");
