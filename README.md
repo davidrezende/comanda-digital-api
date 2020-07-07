@@ -2,8 +2,6 @@
 
 Trabalho de Conclusão de Curso - UNICEUB  06/2020
 
-
-
 ***Comando a ser executado junto ao Maven para construir o .jar
 
 ```mvn clean package```
@@ -12,7 +10,7 @@ Trabalho de Conclusão de Curso - UNICEUB  06/2020
 
 ## [+] Objetivo
 
-O objetivo com a Comanda Digital API é fornecer endpoints para manipular as principais entidades que estão envolvidas no fluxo trandicional de uma comanda em bares e restaurantes.
+O objetivo da Comanda Digital API é fornecer endpoints para manipular as principais entidades que estão envolvidas no fluxo de uma comanda em bares e restaurantes.
 
 ## [+] Scripts - BANCO DE DADOS
 
@@ -20,7 +18,7 @@ Usuários para demonstração em produção:
 
 Administrador: ```usuario: adm@gmail.com; senha: admin```
 
-Estabelecimento: ```usuario: loja@gmail.com; senha: admin```
+Estabelecimento: ```usuario: bar@gmail.com; senha: admin```
 
 Cliente: ```usuario: cliente@gmail.com; senha: admin```
 
@@ -37,7 +35,7 @@ Cliente: ```usuario: cliente@gmail.com; senha: admin```
 
 ## [+] Deploy
 
-Como solução para hospedar a aplicação na Internet. Hospedamos a API na plataforma Digital Ocean
+API hospedada na plataforma Digital Ocean.
 
 ![png](img/digitalocean_1.png)
 
