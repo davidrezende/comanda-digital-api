@@ -49,7 +49,6 @@ public class CardController {
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Salvar nova comanda", response = Card.class)
-    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> save(@RequestBody @Valid Card card) {
         try{
             return new ResponseEntity<>(cardService.save(card), HttpStatus.CREATED);
@@ -65,7 +64,6 @@ public class CardController {
     @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")//TODO: realizar update em card
     @ApiOperation(value = "Alterar comanda", response = Card.class)
-    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> update(@RequestBody @Valid Card card) {
         try{
             return new ResponseEntity<>(cardService.update(card), HttpStatus.OK);
@@ -81,7 +79,6 @@ public class CardController {
     @PutMapping(path = "/closeCard", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Fechar comanda", response = Card.class)
-    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateAndCloseCard(@RequestBody @Valid Card card) throws Exception {
         try{
             return new ResponseEntity<>(cardService.updateAndCloseCard(card), HttpStatus.OK);

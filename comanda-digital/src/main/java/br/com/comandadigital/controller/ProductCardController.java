@@ -44,7 +44,6 @@ public class ProductCardController {
     @PostMapping(path = "/add/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Adicionar produto na comanda", response = ProductCard.class)
-	@Transactional(rollbackFor =  Exception.class)
     public ResponseEntity<?> addProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
         try {
             return new ResponseEntity<>(productCardService.save(productCard), HttpStatus.CREATED);
@@ -60,7 +59,6 @@ public class ProductCardController {
     @PutMapping(path = "/update/product", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar produto na comanda", response = ProductCard.class)
-    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateProduct(@RequestBody @Valid ProductCard productCard) throws Exception {
         try {
             return new ResponseEntity<>(productCardService.update(productCard), HttpStatus.OK);
@@ -76,7 +74,6 @@ public class ProductCardController {
     @PutMapping(path = "/update/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar status do preparo do produto na comanda para fazendo e concluído", response = ProductCard.class)
-    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateStatusProductCard(@RequestBody @Valid ProductCard productCard) throws Exception {
         try {
             return new ResponseEntity<>(productCardService.updateStatus(productCard), HttpStatus.OK);
@@ -92,7 +89,6 @@ public class ProductCardController {
     @PutMapping(path = "/update/status/rollBack", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar status do preparo do produto na comanda para aberto", response = ProductCard.class)
-    @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> updateStatusProductCardRollBack(@RequestBody @Valid ProductCard productCard) throws Exception {
         try {
             return new ResponseEntity<>(productCardService.updateStatusRollBack(productCard), HttpStatus.OK);
