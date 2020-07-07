@@ -60,7 +60,6 @@ public class ProductController {
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Salvar novo produto", response = Product.class)
-	@Transactional(rollbackFor =  Exception.class)
     public ResponseEntity<?> save(@RequestBody @Valid Product product) {
         try {
             return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
@@ -76,7 +75,6 @@ public class ProductController {
     @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Alterar produto", response = Product.class)
-    @Transactional(rollbackFor =  Exception.class)
     public ResponseEntity<?> update(@RequestBody @Valid Product product) {
         try {
             return new ResponseEntity<>(productService.update(product), HttpStatus.OK);
@@ -92,7 +90,6 @@ public class ProductController {
     @PutMapping(path = "/disable", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO') and  #oauth2.hasScope('write')")
     @ApiOperation(value = "Desabilitar produto", response = Product.class)
-	@Transactional(rollbackFor =  Exception.class)
     public ResponseEntity<?> disable(@RequestBody @Valid Product product) throws Exception {
         try {
             return new ResponseEntity<>(productService.disable(product), HttpStatus.OK);
@@ -107,7 +104,6 @@ public class ProductController {
 
     @PutMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Deletar produto", response = Product.class)
-	@Transactional(rollbackFor =  Exception.class)
     public ResponseEntity<?> delete(@RequestBody @Valid Product product) {
         try {
             return new ResponseEntity<>(productService.delete(product), HttpStatus.OK);

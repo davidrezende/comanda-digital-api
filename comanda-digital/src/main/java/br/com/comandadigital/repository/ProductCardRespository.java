@@ -74,8 +74,8 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 					"and pc.id_product = p.id_product \n" +
 					"and p.id_type = ( select tb_product_type.id_product_type from tb_product_type where tb_product_type.description =  ? ) \n" +
 					"and c.end_date is not null \n" +
-					"and pc.date_registration >= ? \n" +
-					"and pc.date_registration <= ? \n" +
+					"and c.end_date >= ? \n" +
+					"and c.end_date <= ? \n" +
 					"group by p.name, pc.value \n" +
 					"order by qtSale desc, totSale desc, name asc ",
 			nativeQuery = true)
@@ -90,7 +90,7 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 					"  DATE_FORMAT(card.end_date, '%m/%Y') as mes, \n" +
 					"    prdtp.id_product_type as idCategoria, \n" +
 					"	 prdtp.description as descricaoCategoria, \n" +
-					"    count(prdcard.id_product) as qtd, \n" +
+					"    sum(prdcard.amount_product) as qtd, \n" +
 					"    sum(prdcard.amount_product*prdcard.value) as totFaturado \n" +
 					" from \n" +
 					" tb_card as card, \n" +
@@ -120,7 +120,7 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 					"  DATE_FORMAT(card.end_date, '%m/%Y') as mes, \n" +
 					"    prdtp.id_product_type as idCategoria, \n" +
 					"	 prdtp.description as descricaoCategoria, \n" +
-					"    count(prdcard.id_product) as qtd, \n" +
+					"    sum(prdcard.amount_product) as qtd, \n" +
 					"    sum(prdcard.amount_product*prdcard.value) as totFaturado \n" +
 					" from \n" +
 					" tb_card as card, \n" +

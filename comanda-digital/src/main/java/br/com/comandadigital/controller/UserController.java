@@ -67,7 +67,6 @@ public class UserController {
 
 	@PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('write')")
-	@Transactional(rollbackFor = Exception.class)
 	@ApiOperation(value = "Salvar novo usuário", response = User.class)
 	public ResponseEntity<?> save(@RequestBody @Valid User user){
 		try{
@@ -82,7 +81,6 @@ public class UserController {
 	}
 	
 	@PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar usuário", response = User.class)
 	public ResponseEntity<?> update(@RequestBody @Valid User user) throws Exception {
@@ -99,7 +97,6 @@ public class UserController {
 
 
 	@PutMapping(path = "/updateByAdmin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Administrador alterando usuário", response = User.class)
 	public ResponseEntity<?> updateByAdmin(@RequestBody @Valid User user) throws Exception {
@@ -116,7 +113,6 @@ public class UserController {
 
 
 	@PutMapping(path = "/changePassword", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	@Transactional(rollbackFor  = Exception.class)
 	@PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') or hasAuthority('ROLE_CLIENTE') and #oauth2.hasScope('write')")
 	@ApiOperation(value = "Alterar senha do usuário")
 	public ResponseEntity<?> update(@RequestBody @Valid VoUserChangePassword userChangePassword) throws Exception {
