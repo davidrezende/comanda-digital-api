@@ -24,7 +24,9 @@ Cliente: ```usuario: cliente@gmail.com; senha: admin```
 
 [SQL PARA GERAÇÃO DO BANCO DE DADOS](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_tables.sql)
 
-[SQL PARA MASSA DE TESTE](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_tables.sql)
+[SQL PARA MASSA DE TESTE](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_inserts.sql)
+
+[SQL PARA MASSA DE TESTE - FATURAMENTO ANUAL](https://github.com/davidrezende/comanda-digital-api/blob/develop/database/sql_insert_year.sql)
 
 ## [+] Documentação
 
