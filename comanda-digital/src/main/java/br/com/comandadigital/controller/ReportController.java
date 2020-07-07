@@ -2,7 +2,6 @@ package br.com.comandadigital.controller;
 
 import br.com.comandadigital.error.ErrorResponse;
 import br.com.comandadigital.error.RestExceptionHandler;
-import br.com.comandadigital.model.User;
 import br.com.comandadigital.model.vo.*;
 import br.com.comandadigital.service.ReportService;
 import io.swagger.annotations.Api;
@@ -57,7 +56,7 @@ public class ReportController {
 
     @PostMapping(path = "/reportBillingInfoByStore", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADM') or hasAuthority('ROLE_ESTABELECIMENTO') and #oauth2.hasScope('read')")
-    @ApiOperation(value = "Relatório de faturamento de comidas e bebidas do estabelecimento por intervalo de data ou do último ano ", response = VoRetBilling.class)
+    @ApiOperation(value = "Relatório de faturamento de comidas e bebidas do estabelecimento por intervalo de data ou do último ano ", response = VoRetBillingMonthWithChartDetail.class)
     public ResponseEntity<?> reportBillingInfo(@RequestBody @Valid  VoReportBillingDate voReportBillingDate) {
         try {
             return new ResponseEntity<>(reportService.reportBillingInfo(voReportBillingDate), HttpStatus.OK);

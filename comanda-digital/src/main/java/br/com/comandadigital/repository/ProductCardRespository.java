@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import br.com.comandadigital.model.Card;
-import br.com.comandadigital.model.vo.VoRetReportBillingStore;
+import br.com.comandadigital.model.vo.VoRetReportBillingMounthGroupByProductType;
 import br.com.comandadigital.model.vo.VoRetReportTopSellingProduct;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -113,7 +112,7 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 					" card.end_date desc, \n" +
 					" prdtp.id_product_type \n",
 			nativeQuery = true)
-	List<VoRetReportBillingStore> reportTotBillingByStore(@Param("idStore") Long idStore);
+	List<VoRetReportBillingMounthGroupByProductType> reportTotBillingByStore(@Param("idStore") Long idStore);
 
 	@Query(
 			value = "select  \n" +
@@ -144,9 +143,9 @@ public interface ProductCardRespository extends PagingAndSortingRepository<Produ
 					" card.end_date desc, \n" +
 					" prdtp.id_product_type \n",
 			nativeQuery = true)
-	List<VoRetReportBillingStore> reportTotBillingByStoreAndDate(@Param("idStore") Long idStore	,
-																 @Param("firstDate") Date firstDate,
-																 @Param("secondDate") Date secondDate );
+	List<VoRetReportBillingMounthGroupByProductType> reportTotBillingByStoreAndDate(@Param("idStore") Long idStore	,
+																					@Param("firstDate") Date firstDate,
+																					@Param("secondDate") Date secondDate );
 
 	@Query(
 			value = "select p.name as name , \n" +

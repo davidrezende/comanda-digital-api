@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -60,14 +58,14 @@ public class ReportService {
         return voRet;
     }
 
-    public VoRetBilling reportBillingInfo(VoReportBillingDate vo) {
+    public VoRetBillingMonthWithChartDetail reportBillingInfo(VoReportBillingDate vo) {
         log.info(ReportLog.REPORT_BILLING_INFO);
         return formatChartTotBillingByStore(vo);
     }
 
-    public VoRetBilling formatChartTotBillingByStore(VoReportBillingDate vo) {
-        VoRetBilling voRet = new VoRetBilling();
-        List<VoRetReportBillingStore> list = new ArrayList<>();
+    public VoRetBillingMonthWithChartDetail formatChartTotBillingByStore(VoReportBillingDate vo) {
+        VoRetBillingMonthWithChartDetail voRet = new VoRetBillingMonthWithChartDetail();
+        List<VoRetReportBillingMounthGroupByProductType> list = new ArrayList<>();
         if (vo.getFirstDate() != null && vo.getSecondDate() != null) {
             log.info(ReportLog.REPORT_BILLING_DATE_INTERVAL_INFO);
             Calendar c = Calendar.getInstance();
@@ -82,7 +80,7 @@ public class ReportService {
 
         //retirando meses iguais
         List<String> meses = list.stream()
-                .map(VoRetReportBillingStore::getMes)
+                .map(VoRetReportBillingMounthGroupByProductType::getMes)
                 .distinct()
                 .collect(Collectors.toList());
 
@@ -93,8 +91,8 @@ public class ReportService {
         List<Integer> qtBebida = new ArrayList<>();
         List<String> mesArray = new ArrayList<>();
 
-        Predicate<VoRetReportBillingStore> a;
-        Predicate<VoRetReportBillingStore> b;
+        Predicate<VoRetReportBillingMounthGroupByProductType> a;
+        Predicate<VoRetReportBillingMounthGroupByProductType> b;
 
         //para cada mes eu filtro por data e id categoria
         for (String mes : meses) {

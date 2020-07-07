@@ -2,7 +2,7 @@ package br.com.comandadigital.model.vo;
 
 import java.math.BigDecimal;
 
-public interface VoRetReportBillingStore {
+public interface VoRetReportBillingMounthGroupByProductType {
     String getMes();
     Integer getIdCategoria();
     String getDescricaoCategoria();
