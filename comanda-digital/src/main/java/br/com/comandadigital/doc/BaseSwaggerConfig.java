@@ -33,7 +33,7 @@ public class BaseSwaggerConfig {
 				.version("1.0")
 				.contact((new Contact("David Rezende & Bryan Souza","https://github.com/davidrezende/comanda-digital-api","david.rezende@sempreceub.com" )))
 				.license("None")
-				.license("http://uniceub.br")
+				.license("http://www.uniceub.br")
 				.build();
 	}
 

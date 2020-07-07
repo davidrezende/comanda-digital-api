@@ -23,7 +23,7 @@ public class AddressController {
 
     @GetMapping(path = "/find/zipCode/{zipCode}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ESTABELECIMENTO')  or hasAuthority('ROLE_ADM') and  #oauth2.hasScope('read')")
-    @ApiOperation(value = "Buscar CEP através da APi VIACEP Correios", response = Address.class)
+    @ApiOperation(value = "Buscar CEP através da APi VIACEP", response = Address.class)
     @ResponseBody
     public Address findByZipCode(@PathVariable String zipCode) {
         return addressService.findByZipCode(zipCode);
