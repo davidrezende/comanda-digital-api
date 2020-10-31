@@ -1,7 +1,5 @@
 # Comanda Digital API
 
-Trabalho de Conclusão de Curso - UNICEUB  06/2020
-
 ***Comando a ser executado junto ao Maven para construir o .jar
 
 ```mvn clean package```
